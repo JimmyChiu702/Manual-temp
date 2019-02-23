@@ -1,0 +1,26 @@
+#contentContainer {
+    max-width: 700px;
+    width: 100%;
+    margin: 0 auto 1rem;
+}
+
+#articleContentDisplay {
+    height: 85%;
+    width: 100%;
+    max-width: 1000px;
+    margin: auto;
+    padding: 20px;
+}
+
+#ref-container {
+    padding:0 1rem 1rem;
+}
+
+#mask {
+    width:90%;
+    max-width:1000px;
+    height:80vh;
+    opacity:0;
+    z-index:999;
+    position:absolute;
+}

@@ -1,0 +1,9 @@
+#searchBoxOuterContainer {
+    padding: 1.5rem;
+}
+
+#searchBoxInnerContainer {
+    padding: 1rem 2rem;
+    background-color: rgb(245, 245, 245);
+    border-radius: 999px;
+}

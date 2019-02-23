@@ -1,0 +1,32 @@
+#container {
+    max-width: 400px;
+    width: 100%;
+    height: auto;
+    padding: 4rem;
+    margin: 10% auto auto auto;
+}
+
+.formControl {
+    display: block;
+}
+
+#confirmBtn {
+    margin-top: 2rem;
+    margin-left: auto;
+}
+
+#btnContainer {
+    text-align: right;
+}
+
+#footer {
+    margin-top: 2rem;
+}
+
+#errorIconContainer {
+    text-align: center;
+}
+
+#errorMessage {
+    margin-top: 2rem;
+}
