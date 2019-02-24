@@ -5,11 +5,11 @@
 }
 
 #articleContentDisplay {
-    height: 85%;
-    width: 100%;
-    max-width: 1000px;
-    margin: auto;
-    padding: 20px;
+    width:90%;
+    max-width:1000px;
+    margin:auto;
+    padding:20px;
+    border-radius:1rem;
 }
 
 #ref-container {

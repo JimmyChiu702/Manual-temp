@@ -17,13 +17,13 @@ router.all('/*', (ctx, next) => {
 // CONTENT MANAGEMENT
 // Create
 router.post('/create/chapter', async (ctx, next) => {
-    const {chapterText, isOnlyArticle} = ctx.request.body;
+    const {chapterText, isOnlyArticle, part} = ctx.request.body;
     if (!chapterText) {
         ctx.throw(400, 'Chapter text is required !')
     }
     try {
         ctx.response.type = 'json';
-        ctx.response.body = await contentModel.createChapter(chapterText, isOnlyArticle);
+        ctx.response.body = await contentModel.createChapter(chapterText, isOnlyArticle, part);
     } catch(err) {
         console.error(err);
         ctx.throw(400, err.message);
@@ -46,14 +46,14 @@ router.post('/create/section', async (ctx, next) => {
 });
 
 router.post('/create/article', async (ctx, next) => {
-    const {articleText, parentID, level} = ctx.request.body.fields;
+    const {articleText, chapterID, sectionID, level, part} = ctx.request.body.fields;
     const file = ctx.request.body.files.file;
-    if (!articleText || !parentID || !file) {
-        ctx.throw(400, 'Article text, parent id, and file are required !');
+    if (!articleText || !chapterID || !file || !part || !level) {
+        ctx.throw(400, 'Article text, parent id, file, and part are required !');
     }
     try {
         ctx.response.type = 'json';
-        ctx.response.body = await contentModel.createArticle(articleText, chapterID, sectionID, file.path, file.name, level);
+        ctx.response.body = await contentModel.createArticle(articleText, chapterID, sectionID, file.path, file.name, part, level);
     } catch(err) {
         console.error(err);
         ctx.throw(400, err.message);
@@ -62,13 +62,13 @@ router.post('/create/article', async (ctx, next) => {
 
 // Remove
 router.post('/remove/chapter', async (ctx, next) => {
-    const {chapterID} = ctx.request.body;
+    const {chapterID, part} = ctx.request.body;
     if (!chapterID) {
         ctx.throw(400, 'Chapter id is required !');
     }
     try {
         ctx.response.type = 'json';
-        ctx.response.body = await contentModel.removeChapter(chapterID);
+        ctx.response.body = await contentModel.removeChapter(chapterID, part);
     } catch(err) {
         console.error(err);
         ctx.throw(400, err.message);
@@ -105,13 +105,13 @@ router.post('/remove/article', async (ctx, next) => {
 
 // Modify
 router.post('/modify/chapter', async (ctx, next) => {
-    const {chapterID, newChapterText} = ctx.request.body;
+    const {chapterID, newChapterText, part} = ctx.request.body;
     if (!chapterID || !newChapterText) {
         ctx.throw(400, 'Chapter id and chapter text are required !');
     }
     try {
         ctx.response.type = 'json';
-        ctx.response.body = await contentModel.modifyChapter(chapterID, newChapterText);
+        ctx.response.body = await contentModel.modifyChapter(chapterID, newChapterText, part);
     } catch(err) {
         console.error(err);
         ctx.throw(400, qerr.message);
@@ -133,11 +133,12 @@ router.post('/modify/section', async (ctx, next) => {
 });
 
 router.post('/modify/article', async (ctx, next) => {
-    const {articleID, newArticleText} = ctx.request.body;
-    const file = ctx.request.body.files.file;
+    const {articleID, articleText, level} = ctx.request.body.fields;
+    const file = !! ctx.request.body.files.file ? ctx.request.body.files.file : null;
+    console.log(ctx.request.body.fields)
     try {
         ctx.response.type = 'json';
-        ctx.response.body = await contentModel.modifyArticle(articleID, newArticleText, file.path, file.name);
+        ctx.response.body = await contentModel.modifyArticle(articleID, articleText, file, level);
     } catch(err) {
         console.error(err);
         ctx.throw(400, err.message);

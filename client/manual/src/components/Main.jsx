@@ -67,9 +67,8 @@ export default class Main extends React.Component {
                     高中生競賽<br />語言檢定資訊查詢平台
                 </Typography>
                 
-                {this.state.tabValue==0 && <Content onLoadingChange={this.handleLoadingChange} />}
-
-                {(this.state.tabValue==1 && isAdmin) && <ContentManagement onLoadingChange={this.handleLoadingChange} />}
+                {this.state.tabValue==0 && <Content part={1} onLoadingChange={this.handleLoadingChange} />}
+                {(this.state.tabValue==1 && isAdmin) && <ContentManagement part={1} onLoadingChange={this.handleLoadingChange} />}
                 {(this.state.tabValue==2 && isAdmin) && <UserManagement onLoadingChange={this.handleLoadingChange} />}
 
                 <Typography id='footer' variant='body2' align='center'>Copyright &#9400; 2017 國立清華大學教務處招生策略中心。版權所有</Typography>

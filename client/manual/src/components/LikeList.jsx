@@ -10,7 +10,7 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import Typography from '@material-ui/core/Typography';
 
-import { getArticles } from 'api/content.js';
+import { getAllArticles } from 'api/content.js';
 
 import './LikeList.css';
 
@@ -38,8 +38,7 @@ export default class LikeList extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        console.log('prop change')
-        if (this.props.likeAricls != nextProps.likeArticles)
+        if (this.props.likeAricles != nextProps.likeArticles)
             this.updateLikeArticleList(nextProps.likeArticles)
     }
 
@@ -68,7 +67,7 @@ export default class LikeList extends React.Component {
     }
 
     getArticles() {
-        getArticles().then(articles => {
+        getAllArticles(this.props.part).then(articles => {
             this.setState({articles: articles}, () => {
                 this.updateLikeArticleList(this.props.likeArticles);
             });

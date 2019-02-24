@@ -6,7 +6,9 @@ const userSchema = new Schema({
     userID: { type: String, required: true, unique: true, lowercase: true },
     departmentName: { type: String, required: true },
     password: { type: String, required: true},
-    like: [String],
+    like_1: [String],
+    like_2: [String],
+    like_3: [String],
     index: {type: Number, required: true, unique: true}
 });
 
@@ -38,7 +40,9 @@ async function createUser(userID, departmentName, password) {
             userID: userID,
             departmentName: departmentName,
             password: password,
-            like: [],
+            like_1: [],
+            like_2: [],
+            like_3: [],
             index: userNum
         });
         await newUser.save();

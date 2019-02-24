@@ -10,45 +10,51 @@ const chapterSchema = new Schema({
     chapterText: { type: String, required: true },      
     isOnlyArticle: Boolean,                             // if thfe chapter contains only articles, not any section
     createdDate: { type: Date, default: Date.now },
-    kind: { type: Number, default: 1 }          // 0=>head, 1=>content, 2=>tail
+    kind: { type: Number, default: 1 },                 // 0=>head, 1=>content, 2=>tail
+    part: { type: Number, default: 1 },                 // indicating which part of content if belongs to
+    index: { type: Number, required: true }
 });
 const Chapter = mongoose.model('Chapter', chapterSchema);
 
-async function createChapter(chapterText, isOnlyArticle, kind = 1){
+async function createChapter(chapterText, isOnlyArticle, part, kind = 1){
     try {
+        var chapterNum = await Chapter.count({part: part});
+        console.log(chapterNum)
         var newChapter = new Chapter({
             chapterText: chapterText,
             isOnlyArticle: isOnlyArticle,
-            kind: kind
+            kind: kind,
+            part: part,
+            index: chapterNum - 1
         });
         await newChapter.save();
-        return await getChapters();    
+        return await getChapters(part);    
     } catch(err) {
         throw err;
     }
 }
 
-async function removeChapter(chapterID){
+async function removeChapter(chapterID, part){
     try {
         await Chapter.findByIdAndDelete(chapterID);
-        return await getChapters();
+        return await getChapters(part);
     } catch(err) {
         throw err;
     }
 }
 
-async function modifyChapter(chapterId, newChapterText){
+async function modifyChapter(chapterId, newChapterText, part){
     try {
         await Chapter.findByIdAndUpdate(chapterId, {chapterText: newChapterText});
-        return await getChapters();
+        return await getChapters(part);
     } catch(err) {
         throw err;
     }
 }
 
-async function getChapters(){
+async function getChapters(part){
     try {
-        return await Chapter.find({}, null, {sort: {createdDate: 1}});
+        return await Chapter.find({part: part}, null, {sort: {createdDate: 1}});
     } catch(err) {
         throw err;
     }
@@ -58,15 +64,18 @@ async function getChapters(){
 const sectionSchema = new Schema({
     sectionText: { type: String, required: true },
     createdDate: { type: Date, default: Date.now },
-    chapterID: { type: String, required: true }
+    chapterID: { type: String, required: true },
+    index: { type: Number, required: true }
 });
 const Section = mongoose.model('Section', sectionSchema);
 
 async function createSection(chapterID, sectionText){
     try {
+        var sectionNum = await Section.count({chapterID: chapterID});
         var newSection = new Section({
             sectionText: sectionText,
-            chapterID: chapterID
+            chapterID: chapterID,
+            index: sectionNum
         });
         await newSection.save();
         return await getSections(chapterID);
@@ -110,36 +119,31 @@ const articleSchema = new Schema({
     sectionID: {type: String, required: false, default: null},
     filename: { type: String, required: true },
     lastModifiedDate: { type: Date, default: Date.now },
-    level: {type: String, default: null}
+    level: {type: String, default: null},
+    part: { type: Number, required: true },
+    index: { type: Number, required: true }
 });
 const Article = mongoose.model('Article', articleSchema);
 
-async function createArticle(articleText, chapterID, sectionID, uploadFilePath, uploadFileName, level = null){
+async function createArticle(articleText, chapterID, sectionID, uploadFilePath, uploadFileName, part, level){
     try {
-        await uploadFile(uploadFilePath, documentDirPath);
-        var newArticle = {
-            articleText: articleText,
-            chapterID: chapterID,
-            sectionID: sectionID,
-            filename: uploadFileName,
-            level: level
-        };
-        return await newArticle.save();
-    } catch(err) {
-        throw err;
-    }
-}
-
-async function createArticleWithoutFile(articleText, parentID, uploadFileName, level = null) {
-    try {
+//        await uploadFile(uploadFilePath, documentDirPath);
+        var parentID = sectionID == '' ? chapterID : sectionID;
+        var articleNum = await Article.count({parentID: parentID});
         var newArticle = new Article({
             articleText: articleText,
             parentID: parentID,
+            chapterID: chapterID,
+            sectionID: sectionID,
             filename: uploadFileName,
-            level: level
+            level: level,
+            index: articleNum,
+            part: part
         });
-        return await newArticle.save();
+        await newArticle.save();
+        return await getArticles(parentID);
     } catch(err) {
+        console.error(err)
         throw err;
     }
 }
@@ -147,21 +151,28 @@ async function createArticleWithoutFile(articleText, parentID, uploadFileName, l
 async function removeArticle(articleID){
     try {
         let articleToRemove = await Article.findById(articleID);
-        fs.unlinkSync(`${uploadPath}${articleToRemove.filename}`);
-        return await Article.findByIdAndDelete(articleID);
+//        fs.unlinkSync(`${uploadPath}${articleToRemove.filename}`);
+        await Article.findByIdAndDelete(articleID);
+        return await getArticles(articleToRemove.parentID)
     } catch(err) {
         throw err;
     }
 }
 
-async function modifyArticle(articleID, newArticleText, uploadFilePath, uploadFileName, level){
+async function modifyArticle(articleID, newArticleText, file, level){
     try {
-        if (uploadFileName != null) {
-            await Article.uploadFile(uploadFilePath, documentDirPath);
-            return await Article.findByIdAndUpdate(articleID, {articleText: newArticleText, filename: uploadFileName, lastModifiedDate: Date.now, level: level}); 
-        } else {
-            return await Article.findByIdAndUpdate(articleID, {articleText: newArticleText});
+        var doc = {};
+        if (file != null) {
+//            await Article.uploadFile(file.path, documentDirPath);
+            doc['filename'] = file.name;
+            doc['lastModifiedDate'] = Date.now();
         }
+        if (!!newArticleText)
+            doc['articleText'] = newArticleText;
+        if (!!level || level == '') 
+            doc['level'] = level;
+        let modified = await Article.findByIdAndUpdate(articleID, doc);
+        return getArticles(modified.parentID);
     } catch(err) {
         throw err;
     }
@@ -175,6 +186,17 @@ async function getArticles(parentID = null){
             return await Article.find({}, null, {sort: {createdDate: 1}});
         } catch(err) {
             throw err;
+    }
+}
+
+async function getAllArticles(part = null) {
+    try {
+        if (part)
+            return await Article.find({part: part},  null, {sort: {createdDate: 1}});
+        else
+            return await Article.find({},  null, {sort: {createdDate: 1}});
+    } catch(err) {
+        throw err;
     }
 }
 
@@ -222,10 +244,10 @@ module.exports = {
     modifySection,
     getSections,
     createArticle,
-    createArticleWithoutFile,
     removeArticle,
     modifyArticle,
     getArticles,
+    getAllArticles,
     Article,
     Chapter,
     Section

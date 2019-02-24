@@ -36,8 +36,6 @@ export default class Content extends React.Component {
             articleLevel: null
         }
 
-        this.baseUrl = 'http://localhost:80/document/';
-
         this.handleTabsChange = this.handleTabsChange.bind(this);
         this.handleModalClose = this.handleModalClose.bind(this);
         this.handleArticleToggle = this.handleArticleToggle.bind(this);
@@ -63,18 +61,19 @@ export default class Content extends React.Component {
                                 <Grid xs={2} item>
                                     <Typography style={{marginTop: '0.5rem'}}>
                                         <font>參考度</font>
-                                        <font style={{fontSize: '2.5rem', color: refColor}}></font>
+                                        <font style={{fontSize: '2.5rem', color: refColor}}>{' '}{this.state.articleLevel}</font>
                                     </Typography>
                                 </Grid>
                                 <Grid item>
                                     <Typography style={{fontSize: '0.8rem'}}>
-                                        {refDiscr[0]}<br/>{refColor[1]}
+                                        {refDiscr[0]}<br/>{refDiscr[1]}
                                     </Typography>
                                 </Grid>
                             </Grid>
                         }
                         <div id='mask' onContextMenu={event => event.preventDefault()} onClick={() => document.getElementById('pdf').focus()}></div>
-                        <iframe id='pdf' src={this.state.articleUrl} width="100%" height="100%" />
+                        <iframe id='pdf' src={this.state.articleUrl} style={{width: "100%", height: "80vh"}} />
+                        <Typography align='center'>請使用 "上"、"下"、"Page UP"、"Page Down" 來移動文件</Typography>
                     </Paper>
                 </Modal>
 
@@ -84,15 +83,15 @@ export default class Content extends React.Component {
                     <Tab icon={<SearchIcon />} />
                 </Tabs>
 
-                {this.state.tabValue==0 && <ChapterList onArticleToggle={this.handleArticleToggle} likeArticles={this.state.likeArticles} onLikeIconToggle={this.handleLikeIconToggle} />}
-                {this.state.tabValue==1 && <LikeList onArticleToggle={this.handleArticleToggle} likeArticles={this.state.likeArticles} onLikeIconToggle={this.handleLikeIconToggle} />}
-                {this.state.tabValue==2 && <SearchList onArticleToggle={this.handleArticleToggle} likeArticles={this.state.likeArticles} onLikeIconToggle={this.handleLikeIconToggle} />}
+                {this.state.tabValue==0 && <ChapterList part={this.props.part} onArticleToggle={this.handleArticleToggle} likeArticles={this.state.likeArticles} onLikeIconToggle={this.handleLikeIconToggle} />}
+                {this.state.tabValue==1 && <LikeList part={this.props.part} onArticleToggle={this.handleArticleToggle} likeArticles={this.state.likeArticles} onLikeIconToggle={this.handleLikeIconToggle} />}
+                {this.state.tabValue==2 && <SearchList part={this.props.part} onArticleToggle={this.handleArticleToggle} likeArticles={this.state.likeArticles} onLikeIconToggle={this.handleLikeIconToggle} />}
             </Paper>
         );
     }
 
     getLikeArticles() {
-        getLikeArticles().then(likeArticles => {
+        getLikeArticles(this.props.part).then(likeArticles => {
             this.setState({likeArticles: likeArticles});
         }).catch(err => {
             console.error('Error getting like articles', err);
@@ -110,15 +109,15 @@ export default class Content extends React.Component {
     handleArticleToggle(filename, level=null, articleInfo=null) {
         var url;
         if (articleInfo)
-            url = `${this.baseUrl}${filename}?chapterText=${articleInfo.chapterText}&sectionText=${articleInfo.sectionText}&articleText=${articleInfo.articleText}`;
+            url = `/document/${filename}?chapterText=${articleInfo.chapterText}&sectionText=${articleInfo.sectionText}&articleText=${articleInfo.articleText}#toolbar=0`;
         else 
-            url = `${this.baseUrl}${filename}`;
+            url = `/document/${filename}#toolbar=0`;
         this.setState({isModalOpen: true, articleUrl: url, articleLevel: level})
     }
 
     handleLikeIconToggle(articleID, isToLike) {
         this.props.onLoadingChange(true, () => {
-            likeArticle(articleID, isToLike).then(likeArticles => {
+            likeArticle(articleID, isToLike, this.props.part).then(likeArticles => {
                 this.setState({likeArticles: likeArticles}, () => {
                     this.props.onLoadingChange(false);
                 });

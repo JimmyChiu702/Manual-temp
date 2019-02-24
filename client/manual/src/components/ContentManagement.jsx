@@ -23,8 +23,6 @@ export default class ContentManagement extends React.Component {
             articleUrl: null,
             articleLevel: ''
         }
-    
-        this.baseUrl = 'http://localhost:80/document/';
 
         this.handleModalClose = this.handleModalClose.bind(this);
         this.handleArticleToggle = this.handleArticleToggle.bind(this);
@@ -39,27 +37,27 @@ export default class ContentManagement extends React.Component {
                     open={this.state.isModalOpen}
                     onClose={this.handleModalClose}
                 >
-                    <Paper id='artiicleContentDisplay'>
+                    <Paper id='articleContentDisplay'>
                         {this.state.articleLevel != '' && 
                             <Grid id='ref-container' container>
                                 <Grid xs={2} item>
                                     <Typography style={{marginTop: '0.5rem'}}>
                                         <font>參考度</font>
-                                        <font style={{fontSize: '2.5rem', color: refColor}}></font>
+                                        <font style={{fontSize: '2.5rem', color: refColor}}>{' '}{this.state.articleLevel}</font>
                                     </Typography>
                                 </Grid>
                                 <Grid item>
                                     <Typography style={{fontSize: '0.8rem'}}>
-                                        {refDiscr[0]}<br/>{refColor[1]}
+                                        {refDiscr[0]}<br/>{refDiscr[1]}
                                     </Typography>
                                 </Grid>
                             </Grid>
                         }
-                        <iframe src={this.state.articleUrl} width="100%" height="100%" />
+                        <iframe src={this.state.articleUrl} style={{width: '100%', height: '80vh'}} />
                     </Paper>
                 </Modal>
                 
-                <ChapterListManagement onArticleToggle={this.handleArticleToggle} onLoadingChange={this.props.onLoadingChange} />
+                <ChapterListManagement part={this.props.part} onArticleToggle={this.handleArticleToggle} onLoadingChange={this.props.onLoadingChange} />
             </Paper>
         );
     }
@@ -68,8 +66,8 @@ export default class ContentManagement extends React.Component {
         this.setState({isModalOpen: false});
     }
 
-    handleArticleToggle(filename) {
-        this.setState({isModalOpen: true, articleUrl: `${this.baseUrl}${filename}`});
+    handleArticleToggle(filename, level=null) {
+        this.setState({isModalOpen: true, articleUrl: `/document/${filename}`, articleLevel: level});
     }
 
     getRefDiscr(ref) {

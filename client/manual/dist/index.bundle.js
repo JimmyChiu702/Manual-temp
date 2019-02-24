@@ -1776,6 +1776,7 @@ var _List = _interopRequireDefault(__webpack_require__(292));
 /* harmony export (immutable) */ __webpack_exports__["b"] = getChapters;
 /* harmony export (immutable) */ __webpack_exports__["c"] = getSections;
 /* harmony export (immutable) */ __webpack_exports__["d"] = getArticles;
+/* harmony export (immutable) */ __webpack_exports__["g"] = getAllArticles;
 /* harmony export (immutable) */ __webpack_exports__["a"] = getUserInfo;
 /* harmony export (immutable) */ __webpack_exports__["e"] = getLikeArticles;
 /* harmony export (immutable) */ __webpack_exports__["f"] = likeArticle;
@@ -1783,11 +1784,9 @@ var _List = _interopRequireDefault(__webpack_require__(292));
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_axios__);
 
 
-const baseUrl = 'http://127.0.0.1';
-
 // get data
-function getChapters() {
-    let url = `/getChapters`;
+function getChapters(part) {
+    let url = `/getChapters/${part}`;
     console.log(`Making GET request to: ${url}`);
     return __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get(url).then(res => {
         if (res.status !== 200) throw new Error(`Unexpected response code: ${res.status}`);
@@ -1813,6 +1812,15 @@ function getArticles(parentID = null) {
     });
 }
 
+function getAllArticles(part) {
+    let url = `/getAllArticles/${part}`;
+    console.log(`Making GET request to: ${url}`);
+    return __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get(url).then(res => {
+        if (res.status !== 200) throw new Error(`Unexpected response code: ${res.status}`);
+        return res.data;
+    });
+}
+
 function getUserInfo() {
     let url = `/getUserInfo`;
     console.log('Getting user information');
@@ -1823,8 +1831,8 @@ function getUserInfo() {
 }
 
 // like operations
-function getLikeArticles() {
-    let url = `/getLikeArticles`;
+function getLikeArticles(part) {
+    let url = `/getLikeArticles/${part}`;
     console.log(`Getting like articles`);
     return __WEBPACK_IMPORTED_MODULE_0_axios___default.a.get(url).then(res => {
         if (res.status !== 200) throw new Error(`Unexpected response code: ${res.status}`);
@@ -1832,12 +1840,12 @@ function getLikeArticles() {
     });
 }
 
-function likeArticle(articleID, isToLike) {
+function likeArticle(articleID, isToLike, part) {
     let url;
     if (isToLike) {
-        url = `/likeArticle/${articleID}`;
+        url = `/likeArticle/${articleID}/${part}`;
     } else {
-        url = `/dislikeArticle/${articleID}`;
+        url = `/dislikeArticle/${articleID}/${part}`;
     }
     console.log(`Like article with ID: ${articleID}`);
     return __WEBPACK_IMPORTED_MODULE_0_axios___default.a.post(url).then(res => {
@@ -4690,12 +4698,13 @@ const baseUrl = 'http://127.0.0.1';
 
 // CONTENT MANAGEMENT
 // create
-function createChapter(chapterText, isOnlyArticle) {
+function createChapter(chapterText, isOnlyArticle, part) {
     let url = `/create/chapter`;
     console.log(`Create chapter with text: ${chapterText}`);
     return __WEBPACK_IMPORTED_MODULE_0_axios___default.a.post(url, {
         chapterText: chapterText,
-        isOnlyArticle: isOnlyArticle
+        isOnlyArticle: isOnlyArticle,
+        part: part
     }).then(res => {
         if (res.status !== 200) throw new Error(`Unexpected response code: ${res.status}`);
         return res.data;
@@ -4724,11 +4733,12 @@ function createArticle(data) {
 }
 
 // modify
-function modifyChapter(chapterID, newChapterText) {
+function modifyChapter(chapterID, newChapterText, part) {
     let url = `/modify/chapter`;
     return __WEBPACK_IMPORTED_MODULE_0_axios___default.a.post(url, {
         chapterID: chapterID,
-        newChapterText: newChapterText
+        newChapterText: newChapterText,
+        part: part
     }).then(res => {
         if (res.status !== 200) throw new Error(`Unexpected response code: ${res.status}`);
         return res.data;
@@ -4756,10 +4766,11 @@ function modifyArticle(data) {
 }
 
 // remove
-function removeChapter(chapterID) {
+function removeChapter(chapterID, part) {
     let url = `/remove/chapter`;
     return __WEBPACK_IMPORTED_MODULE_0_axios___default.a.post(url, {
-        chapterID: chapterID
+        chapterID: chapterID,
+        part: part
     }).then(res => {
         if (res.status !== 200) throw new Error(`Unexpected response code: ${res.status}`);
         return res.data;
@@ -10017,7 +10028,7 @@ class ArticleListManagement extends __WEBPACK_IMPORTED_MODULE_0_react___default.
     }
 
     getArticles() {
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_18_api_content_js__["d" /* getArticles */])(this.props.parentID).then(articles => {
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_18_api_content_js__["d" /* getArticles */])(this.props.sectionID == '' ? this.props.chapterID : this.props.sectionID).then(articles => {
             this.setState({ articles: articles });
         }).catch(err => {
             console.error('Error getting articles', err);
@@ -10056,12 +10067,14 @@ class ArticleListManagement extends __WEBPACK_IMPORTED_MODULE_0_react___default.
     }
 
     handleCreateArticle() {
-        if (!!this.uploadFile.files[0] && !!this.state.modalInputText && !!this.props.parentID) {
+        if (!!this.uploadFile.files[0] && !!this.state.modalInputText && !!this.props.chapterID && !!this.props.sectionID && !!this.props.articleLevel) {
             const data = new FormData();
             data.append('file', this.uploadFile.files[0]);
             data.append('articleText', this.state.modalInputText);
-            data.append('parentID', this.props.parentID);
+            data.append('chapterID', this.props.chapterID);
+            data.append('sectionID', this.props.sectionID);
             data.append('level', this.state.articleLevel);
+            data.append('part', this.props.part);
             this.props.onLoadingChange(true, () => {
                 __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_19_api_admin_js__["k" /* createArticle */])(data).then(articles => {
                     this.setState({ articles: articles }, () => {
@@ -11203,8 +11216,8 @@ class Main extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('br', null),
                 '\u8A9E\u8A00\u6AA2\u5B9A\u8CC7\u8A0A\u67E5\u8A62\u5E73\u53F0'
             ),
-            this.state.tabValue == 0 && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_10_components_Content_jsx__["a" /* default */], { onLoadingChange: this.handleLoadingChange }),
-            this.state.tabValue == 1 && isAdmin && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_12_components_ContentManagement_jsx__["a" /* default */], { onLoadingChange: this.handleLoadingChange }),
+            this.state.tabValue == 0 && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_10_components_Content_jsx__["a" /* default */], { part: 1, onLoadingChange: this.handleLoadingChange }),
+            this.state.tabValue == 1 && isAdmin && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_12_components_ContentManagement_jsx__["a" /* default */], { part: 1, onLoadingChange: this.handleLoadingChange }),
             this.state.tabValue == 2 && isAdmin && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_13_components_UserManagement_jsx__["a" /* default */], { onLoadingChange: this.handleLoadingChange }),
             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                 __WEBPACK_IMPORTED_MODULE_2__material_ui_core_Typography___default.a,
@@ -35598,7 +35611,7 @@ class ChapterList extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Componen
     }
 
     getChapters() {
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_10_api_content_js__["b" /* getChapters */])().then(chapters => {
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_10_api_content_js__["b" /* getChapters */])(this.props.part).then(chapters => {
             let head = chapters.splice(chapters.findIndex(ch => ch.kind === 0), 1)[0];
             let tail = chapters.splice(chapters.findIndex(ch => ch.kind === 2), 1)[0];
             this.setState({ head: head, tail: tail, chapters: chapters });
@@ -35881,13 +35894,15 @@ class ChapterListManagement extends __WEBPACK_IMPORTED_MODULE_0_react___default.
                     onDeleteToggle: this.handleDeleteToggle,
                     onEditToggle: this.handleEditToggle,
                     onArticleToggle: this.props.onArticleToggle,
-                    onLoadingChange: this.props.onLoadingChange }),
+                    onLoadingChange: this.props.onLoadingChange,
+                    part: this.props.part }),
                 this.state.chapters.map((obj, i) => __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_16_components_SingleChapterManagement_jsx__["a" /* default */], { chapter: obj,
                     index: i,
                     onDeleteToggle: this.handleDeleteToggle,
                     onEditToggle: this.handleEditToggle,
                     onArticleToggle: this.props.onArticleToggle,
-                    onLoadingChange: this.props.onLoadingChange })),
+                    onLoadingChange: this.props.onLoadingChange,
+                    part: this.props.part })),
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                     __WEBPACK_IMPORTED_MODULE_4__material_ui_core_ListItem___default.a,
                     { button: true, onClick: this.handleCreateToggle },
@@ -35899,13 +35914,14 @@ class ChapterListManagement extends __WEBPACK_IMPORTED_MODULE_0_react___default.
                     onDeleteToggle: this.handleDeleteToggle,
                     onEditToggle: this.handleEditToggle,
                     onArticleToggle: this.props.onArticleToggle,
-                    onLoadingChange: this.props.onLoadingChange })
+                    onLoadingChange: this.props.onLoadingChange,
+                    part: this.props.part })
             )
         );
     }
 
     getChapters() {
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_17_api_content_js__["b" /* getChapters */])().then(chapters => {
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_17_api_content_js__["b" /* getChapters */])(this.props.part).then(chapters => {
             this.updateChapters(chapters);
         }).catch(err => {
             console.error('Error getting chapters', err);
@@ -35951,7 +35967,7 @@ class ChapterListManagement extends __WEBPACK_IMPORTED_MODULE_0_react___default.
     // content management
     handleCreateChapter() {
         if (!!this.state.modalInputText && !!this.state.createModalContentType) {
-            __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_18_api_admin_js__["e" /* createChapter */])(this.state.modalInputText, this.state.createModalContentType == 1 ? false : true).then(chapters => {
+            __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_18_api_admin_js__["e" /* createChapter */])(this.state.modalInputText, this.state.createModalContentType == 1 ? false : true, this.props.part).then(chapters => {
                 this.updateChapters(chapters);
                 this.handleModalClose();
             }).catch(err => {
@@ -35964,7 +35980,7 @@ class ChapterListManagement extends __WEBPACK_IMPORTED_MODULE_0_react___default.
     handleModifyChapter() {
         if (!!this.chapterToManage && !!this.state.modalInputText) {
             this.props.onLoadingChange(true, () => {
-                __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_18_api_admin_js__["f" /* modifyChapter */])(this.chapterToManage, this.state.modalInputText).then(chapters => {
+                __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_18_api_admin_js__["f" /* modifyChapter */])(this.chapterToManage, this.state.modalInputText, this.props.part).then(chapters => {
                     this.updateChapters(chapters, () => {
                         this.props.onLoadingChange(false);
                         this.handleModalClose();
@@ -35984,7 +36000,7 @@ class ChapterListManagement extends __WEBPACK_IMPORTED_MODULE_0_react___default.
             this.props.onLoadingChange(true, () => {
                 this.isChildEmpty(isEmpty => {
                     if (isEmpty) {
-                        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_18_api_admin_js__["g" /* removeChapter */])(this.chapterToManage).then(chapters => {
+                        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_18_api_admin_js__["g" /* removeChapter */])(this.chapterToManage, this.props.part).then(chapters => {
                             this.updateChapters(chapters, () => {
                                 this.props.onLoadingChange(false);
                                 this.handleModalClose();
@@ -36096,8 +36112,6 @@ class Content extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
             articleLevel: null
         };
 
-        this.baseUrl = 'http://localhost:80/document/';
-
         this.handleTabsChange = this.handleTabsChange.bind(this);
         this.handleModalClose = this.handleModalClose.bind(this);
         this.handleArticleToggle = this.handleArticleToggle.bind(this);
@@ -36137,7 +36151,12 @@ class Content extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
                                     null,
                                     '\u53C3\u8003\u5EA6'
                                 ),
-                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('font', { style: { fontSize: '2.5rem', color: refColor } })
+                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                    'font',
+                                    { style: { fontSize: '2.5rem', color: refColor } },
+                                    ' ',
+                                    this.state.articleLevel
+                                )
                             )
                         ),
                         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
@@ -36148,12 +36167,17 @@ class Content extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
                                 { style: { fontSize: '0.8rem' } },
                                 refDiscr[0],
                                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('br', null),
-                                refColor[1]
+                                refDiscr[1]
                             )
                         )
                     ),
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { id: 'mask', onContextMenu: event => event.preventDefault(), onClick: () => document.getElementById('pdf').focus() }),
-                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('iframe', { id: 'pdf', src: this.state.articleUrl, width: '100%', height: '100%' })
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('iframe', { id: 'pdf', src: this.state.articleUrl, style: { width: "100%", height: "80vh" } }),
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        __WEBPACK_IMPORTED_MODULE_7__material_ui_core_Typography___default.a,
+                        { align: 'center' },
+                        '\u8ACB\u4F7F\u7528 "\u4E0A"\u3001"\u4E0B"\u3001"Page UP"\u3001"Page Down" \u4F86\u79FB\u52D5\u6587\u4EF6'
+                    )
                 )
             ),
             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
@@ -36163,14 +36187,14 @@ class Content extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_5__material_ui_core_Tab___default.a, { icon: __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_8__material_ui_icons_favorite___default.a, null) }),
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_5__material_ui_core_Tab___default.a, { icon: __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_9__material_ui_icons_search___default.a, null) })
             ),
-            this.state.tabValue == 0 && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_11_components_ChapterList_jsx__["a" /* default */], { onArticleToggle: this.handleArticleToggle, likeArticles: this.state.likeArticles, onLikeIconToggle: this.handleLikeIconToggle }),
-            this.state.tabValue == 1 && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_12_components_LikeList_jsx__["a" /* default */], { onArticleToggle: this.handleArticleToggle, likeArticles: this.state.likeArticles, onLikeIconToggle: this.handleLikeIconToggle }),
-            this.state.tabValue == 2 && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_13_components_SearchList_jsx__["a" /* default */], { onArticleToggle: this.handleArticleToggle, likeArticles: this.state.likeArticles, onLikeIconToggle: this.handleLikeIconToggle })
+            this.state.tabValue == 0 && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_11_components_ChapterList_jsx__["a" /* default */], { part: this.props.part, onArticleToggle: this.handleArticleToggle, likeArticles: this.state.likeArticles, onLikeIconToggle: this.handleLikeIconToggle }),
+            this.state.tabValue == 1 && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_12_components_LikeList_jsx__["a" /* default */], { part: this.props.part, onArticleToggle: this.handleArticleToggle, likeArticles: this.state.likeArticles, onLikeIconToggle: this.handleLikeIconToggle }),
+            this.state.tabValue == 2 && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_13_components_SearchList_jsx__["a" /* default */], { part: this.props.part, onArticleToggle: this.handleArticleToggle, likeArticles: this.state.likeArticles, onLikeIconToggle: this.handleLikeIconToggle })
         );
     }
 
     getLikeArticles() {
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_14_api_content_js__["e" /* getLikeArticles */])().then(likeArticles => {
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_14_api_content_js__["e" /* getLikeArticles */])(this.props.part).then(likeArticles => {
             this.setState({ likeArticles: likeArticles });
         }).catch(err => {
             console.error('Error getting like articles', err);
@@ -36187,13 +36211,13 @@ class Content extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
 
     handleArticleToggle(filename, level = null, articleInfo = null) {
         var url;
-        if (articleInfo) url = `${this.baseUrl}${filename}?chapterText=${articleInfo.chapterText}&sectionText=${articleInfo.sectionText}&articleText=${articleInfo.articleText}`;else url = `${this.baseUrl}${filename}`;
+        if (articleInfo) url = `/document/${filename}?chapterText=${articleInfo.chapterText}&sectionText=${articleInfo.sectionText}&articleText=${articleInfo.articleText}#toolbar=0`;else url = `/document/${filename}#toolbar=0`;
         this.setState({ isModalOpen: true, articleUrl: url, articleLevel: level });
     }
 
     handleLikeIconToggle(articleID, isToLike) {
         this.props.onLoadingChange(true, () => {
-            __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_14_api_content_js__["f" /* likeArticle */])(articleID, isToLike).then(likeArticles => {
+            __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_14_api_content_js__["f" /* likeArticle */])(articleID, isToLike, this.props.part).then(likeArticles => {
                 this.setState({ likeArticles: likeArticles }, () => {
                     this.props.onLoadingChange(false);
                 });
@@ -36281,8 +36305,6 @@ class ContentManagement extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Co
             articleLevel: ''
         };
 
-        this.baseUrl = 'http://localhost:80/document/';
-
         this.handleModalClose = this.handleModalClose.bind(this);
         this.handleArticleToggle = this.handleArticleToggle.bind(this);
     }
@@ -36301,7 +36323,7 @@ class ContentManagement extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Co
                 },
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                     __WEBPACK_IMPORTED_MODULE_3__material_ui_core_Paper___default.a,
-                    { id: 'artiicleContentDisplay' },
+                    { id: 'articleContentDisplay' },
                     this.state.articleLevel != '' && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                         __WEBPACK_IMPORTED_MODULE_5__material_ui_core_Grid___default.a,
                         { id: 'ref-container', container: true },
@@ -36316,7 +36338,12 @@ class ContentManagement extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Co
                                     null,
                                     '\u53C3\u8003\u5EA6'
                                 ),
-                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('font', { style: { fontSize: '2.5rem', color: refColor } })
+                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                    'font',
+                                    { style: { fontSize: '2.5rem', color: refColor } },
+                                    ' ',
+                                    this.state.articleLevel
+                                )
                             )
                         ),
                         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
@@ -36327,14 +36354,19 @@ class ContentManagement extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Co
                                 { style: { fontSize: '0.8rem' } },
                                 refDiscr[0],
                                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('br', null),
-                                refColor[1]
+                                refDiscr[1]
                             )
                         )
                     ),
-                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('iframe', { src: this.state.articleUrl, width: '100%', height: '100%' })
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('iframe', { src: this.state.articleUrl, style: { width: '100%', height: '80vh' } }),
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        __WEBPACK_IMPORTED_MODULE_4__material_ui_core_Typography___default.a,
+                        { align: 'center' },
+                        '\u8ACB\u4F7F\u7528 "\u4E0A"\u3001"\u4E0B"\u3001"Page UP"\u3001"Page Down" \u4F86\u79FB\u52D5\u6587\u4EF6'
+                    )
                 )
             ),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_6_components_ChapterListManagement_jsx__["a" /* default */], { onArticleToggle: this.handleArticleToggle, onLoadingChange: this.props.onLoadingChange })
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_6_components_ChapterListManagement_jsx__["a" /* default */], { part: this.props.part, onArticleToggle: this.handleArticleToggle, onLoadingChange: this.props.onLoadingChange })
         );
     }
 
@@ -36342,8 +36374,8 @@ class ContentManagement extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Co
         this.setState({ isModalOpen: false });
     }
 
-    handleArticleToggle(filename) {
-        this.setState({ isModalOpen: true, articleUrl: `${this.baseUrl}${filename}` });
+    handleArticleToggle(filename, level = null) {
+        this.setState({ isModalOpen: true, articleUrl: `/document/${filename}`, articleLevel: level });
     }
 
     getRefDiscr(ref) {
@@ -36441,8 +36473,7 @@ class LikeList extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        console.log('prop change');
-        if (this.props.likeAricls != nextProps.likeArticles) this.updateLikeArticleList(nextProps.likeArticles);
+        if (this.props.likeAricles != nextProps.likeArticles) this.updateLikeArticleList(nextProps.likeArticles);
     }
 
     render() {
@@ -36477,7 +36508,7 @@ class LikeList extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
     }
 
     getArticles() {
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_10_api_content_js__["d" /* getArticles */])().then(articles => {
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_10_api_content_js__["g" /* getAllArticles */])(this.props.part).then(articles => {
             this.setState({ articles: articles }, () => {
                 this.updateLikeArticleList(this.props.likeArticles);
             });
@@ -36644,7 +36675,7 @@ class SearchList extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component
     }
 
     getArticles() {
-        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_12_api_content_js__["d" /* getArticles */])().then(articles => {
+        __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_12_api_content_js__["g" /* getAllArticles */])(this.props.part).then(articles => {
             this.setState({ articles: articles }, () => {
                 this.updateLikeIconDisplay(this.props.likeArticles);
             });
@@ -36987,6 +37018,7 @@ class SectionListManagement extends __WEBPACK_IMPORTED_MODULE_0_react___default.
                     __WEBPACK_IMPORTED_MODULE_2__material_ui_core_List___default.a,
                     null,
                     this.state.sections.map((obj, i) => __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_15_components_SingleSectionManagement_jsx__["a" /* default */], { section: obj,
+                        chapterID: this.props.chapterID,
                         index: i,
                         onDeleteToggle: this.handleDeleteToggle,
                         onEditToggle: this.handleEditToggle,
@@ -37174,7 +37206,7 @@ class SingleArticleManagement extends __WEBPACK_IMPORTED_MODULE_0_react___defaul
         return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
             __WEBPACK_IMPORTED_MODULE_2__material_ui_core_ListItem___default.a,
             { button: true, onClick: () => {
-                    this.props.onArticleToggle(this.props.article.filename);
+                    this.props.onArticleToggle(this.props.article.filename, this.props.article.level);
                 } },
             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__material_ui_core_ListItemText___default.a, { className: 'padding-left-60px', primary: `${articleNumDisplay}${this.props.article.articleText}`, secondary: this.props.article.filename }),
             this.state.hover && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
@@ -37280,7 +37312,7 @@ class SingleChapterManagement extends __WEBPACK_IMPORTED_MODULE_0_react___defaul
     }
 
     render() {
-        let child = this.props.chapter.isOnlyArticle ? __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_10_components_ArticleListManagement_jsx__["a" /* default */], { parentID: this.props.chapter._id, open: this.state.open, onArticleToggle: this.props.onArticleToggle, onLoadingChange: this.props.onLoadingChange }) : __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_11_components_SectionListManagement_jsx__["a" /* default */], { chapterID: this.props.chapter._id, open: this.state.open, onArticleToggle: this.props.onArticleToggle, onLoadingChange: this.props.onLoadingChange });
+        let child = this.props.chapter.isOnlyArticle ? __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_10_components_ArticleListManagement_jsx__["a" /* default */], { part: this.props.part, chapterID: this.props.chapter._id, sectionID: '', open: this.state.open, onArticleToggle: this.props.onArticleToggle, onLoadingChange: this.props.onLoadingChange }) : __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_11_components_SectionListManagement_jsx__["a" /* default */], { part: this.props.part, chapterID: this.props.chapter._id, open: this.state.open, onArticleToggle: this.props.onArticleToggle, onLoadingChange: this.props.onLoadingChange });
         let chapterNumDisplay = this.props.index >= 0 && this.props.index < this.chapterNum.length ? `${this.chapterNum[this.props.index]}、` : '';
 
         return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
@@ -37427,7 +37459,7 @@ class SingleSectionManagement extends __WEBPACK_IMPORTED_MODULE_0_react___defaul
                     )
                 )
             ),
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_10_components_ArticleListManagement_jsx__["a" /* default */], { parentID: this.props.section._id, open: this.state.open, onArticleToggle: this.props.onArticleToggle, onLoadingChange: this.props.onLoadingChange })
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_10_components_ArticleListManagement_jsx__["a" /* default */], { chapterID: this.props.chapterID, sectionID: this.props.section._id, open: this.state.open, onArticleToggle: this.props.onArticleToggle, onLoadingChange: this.props.onLoadingChange })
         );
     }
 
@@ -40830,7 +40862,7 @@ exports = module.exports = __webpack_require__(16)(undefined);
 
 
 // module
-exports.push([module.i, "#contentContainer{max-width:700px;width:100%;margin:0 auto 1rem}#articleContentDisplay{height:85%;width:100%;max-width:1000px;margin:auto;padding:20px}#ref-container{padding:0 1rem 1rem}#mask{width:90%;max-width:1000px;height:80vh;opacity:0;z-index:999;position:absolute}", ""]);
+exports.push([module.i, "#contentContainer{max-width:700px;width:100%;margin:0 auto 1rem}#articleContentDisplay{width:90%;max-width:1000px;margin:auto;padding:20px;border-radius:1rem}#ref-container{padding:0 1rem 1rem}#mask{width:90%;max-width:1000px;height:80vh;opacity:0;z-index:999;position:absolute}", ""]);
 
 // exports
 

@@ -4,12 +4,13 @@ const baseUrl = 'http://127.0.0.1';
 
 // CONTENT MANAGEMENT
 // create
-export function createChapter(chapterText, isOnlyArticle) {
+export function createChapter(chapterText, isOnlyArticle, part) {
     let url = `/create/chapter`;
     console.log(`Create chapter with text: ${chapterText}`);
     return axios.post(url, {
         chapterText: chapterText, 
-        isOnlyArticle: isOnlyArticle
+        isOnlyArticle: isOnlyArticle,
+        part: part
     }).then((res) => {
         if (res.status !== 200)
             throw new Error(`Unexpected response code: ${res.status}`);
@@ -41,11 +42,12 @@ export function createArticle(data) {
 }
 
 // modify
-export function modifyChapter(chapterID, newChapterText) {
+export function modifyChapter(chapterID, newChapterText, part) {
     let url = `/modify/chapter`;
     return axios.post(url, {
         chapterID: chapterID,
-        newChapterText: newChapterText
+        newChapterText: newChapterText,
+        part: part
     }).then((res) => {
         if (res.status !== 200)
             throw new Error(`Unexpected response code: ${res.status}`);
@@ -76,10 +78,11 @@ export function modifyArticle(data) {
 }
 
 // remove
-export function removeChapter(chapterID) {
+export function removeChapter(chapterID, part) {
     let url = `/remove/chapter`;
     return axios.post(url, {
-        chapterID: chapterID
+        chapterID: chapterID,
+        part: part
     }).then((res) => {
         if (res.status !== 200) 
             throw new Error(`Unexpected response code: ${res.status}`);

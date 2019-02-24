@@ -50,10 +50,11 @@ async function recordArticleHitInfo(userInfo, articleInfo) {
 }
 
 module.exports = {recordLoginInfo, recordArticleHitInfo};
-
+/*
 const Article = require('./content').Article;
 const Section = require('./content').Section;
 const Chapter = require('./content').Chapter;
+
 
 function getUser() {
     var n = Math.ceil(Math.random() * 10);
@@ -119,3 +120,4 @@ async function recordLogin(name, time) {
     }
     console.log('FINISHED!!!')
 })();
+*/

@@ -57,7 +57,7 @@ export default class SingleArticleManagement extends React.Component {
         let articleNumDisplay = (this.props.index >=0 && this.props.index < this.articleNum.length) ? `(${this.articleNum[this.props.index]})、` : '';
 
         return (
-            <ListItem button onClick={() => {this.props.onArticleToggle(this.props.article.filename);}}>
+            <ListItem button onClick={() => {this.props.onArticleToggle(this.props.article.filename, this.props.article.level);}}>
                 <ListItemText className='padding-left-60px' primary={`${articleNumDisplay}${this.props.article.articleText}`} secondary={this.props.article.filename}/>
                 {this.state.hover && 
                     <ListItemSecondaryAction className='rightMargin_70px'>

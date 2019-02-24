@@ -22,7 +22,7 @@ passport.serializeUser((user, done) => {
     done(null, {
         userID: user.userID,
         departmentName: user.departmentName,
-        like: user.like
+        like: [user.like_1, user.like_2, user.like_3]
     });
 });
 

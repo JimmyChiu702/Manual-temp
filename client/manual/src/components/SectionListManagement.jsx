@@ -106,6 +106,7 @@ export default class SectionListManagement extends React.Component {
                     <List>
                         {this.state.sections.map((obj, i) => (
                             <SingleSectionManagement    section={obj}
+                                                        chapterID={this.props.chapterID}
                                                         index={i}
                                                         onDeleteToggle={this.handleDeleteToggle}
                                                         onEditToggle={this.handleEditToggle}

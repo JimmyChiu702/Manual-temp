@@ -1,10 +1,8 @@
 import axios from 'axios';
 
-const baseUrl = 'http://127.0.0.1';
-
 // get data
-export function getChapters() {
-    let url = `/getChapters`;
+export function getChapters(part) {
+    let url = `/getChapters/${part}`;
     console.log(`Making GET request to: ${url}`);
     return axios.get(url).then((res) => {
         if (res.status !== 200)
@@ -33,6 +31,16 @@ export function getArticles(parentID = null) {
     });
 }
 
+export function getAllArticles(part) {
+    let url = `/getAllArticles/${part}`;
+    console.log(`Making GET request to: ${url}`);
+    return axios.get(url).then(res => {
+        if (res.status !== 200)
+            throw new Error(`Unexpected response code: ${res.status}`);
+        return res.data;
+    });
+}
+
 export function getUserInfo() {
     let url = `/getUserInfo`;
     console.log('Getting user information');
@@ -44,8 +52,8 @@ export function getUserInfo() {
 }
 
 // like operations
-export function getLikeArticles() {
-    let url = `/getLikeArticles`;
+export function getLikeArticles(part) {
+    let url = `/getLikeArticles/${part}`;
     console.log(`Getting like articles`);
     return axios.get(url).then((res) => {
         if (res.status !== 200)
@@ -54,12 +62,12 @@ export function getLikeArticles() {
     });
 }
 
-export function likeArticle(articleID, isToLike) {
+export function likeArticle(articleID, isToLike, part) {
     let url;
     if (isToLike) {
-        url = `/likeArticle/${articleID}`;
+        url = `/likeArticle/${articleID}/${part}`;
     } else {
-        url = `/dislikeArticle/${articleID}`;
+        url = `/dislikeArticle/${articleID}/${part}`;
     }
     console.log(`Like article with ID: ${articleID}`);
     return axios.post(url).then((res) => {

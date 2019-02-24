@@ -195,7 +195,7 @@ export default class ArticleListManagement extends React.Component {
     }
 
     getArticles() {
-        getArticles(this.props.parentID).then(articles => {
+        getArticles(this.props.sectionID == '' ? this.props.chapterID : this.props.sectionID).then(articles => {
             this.setState({articles: articles});
         }).catch(err => {
             console.error('Error getting articles', err);
@@ -234,12 +234,14 @@ export default class ArticleListManagement extends React.Component {
     }
 
     handleCreateArticle() {
-        if (!!this.uploadFile.files[0] && !!this.state.modalInputText && !!this.props.parentID) {
+        if (!!this.uploadFile.files[0] && !!this.state.modalInputText && !!this.props.chapterID && !!this.props.sectionID && !!this.props.articleLevel) {
             const data = new FormData();
             data.append('file', this.uploadFile.files[0]);
             data.append('articleText', this.state.modalInputText);
-            data.append('parentID', this.props.parentID);
+            data.append('chapterID', this.props.chapterID)
+            data.append('sectionID', this.props.sectionID);
             data.append('level', this.state.articleLevel);
+            data.append('part', this.props.part)
             this.props.onLoadingChange(true, () => {
                 createArticle(data).then(articles => {
                     this.setState({articles: articles}, () => {

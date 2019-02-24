@@ -130,7 +130,8 @@ export default class ChapterListManagement extends React.Component {
                                                     onDeleteToggle={this.handleDeleteToggle}
                                                     onEditToggle={this.handleEditToggle}
                                                     onArticleToggle={this.props.onArticleToggle} 
-                                                    onLoadingChange={this.props.onLoadingChange} />
+                                                    onLoadingChange={this.props.onLoadingChange} 
+                                                    part={this.props.part} />
                     }
                     {this.state.chapters.map((obj, i) => (
                         <SingleChapterManagement    chapter={obj}
@@ -138,7 +139,8 @@ export default class ChapterListManagement extends React.Component {
                                                     onDeleteToggle={this.handleDeleteToggle}
                                                     onEditToggle={this.handleEditToggle}
                                                     onArticleToggle={this.props.onArticleToggle} 
-                                                    onLoadingChange={this.props.onLoadingChange} />
+                                                    onLoadingChange={this.props.onLoadingChange}
+                                                    part={this.props.part} />
                     ))}
                     <ListItem button onClick={this.handleCreateToggle}>
                         <AddIcon className='margin-left-20px'/>
@@ -150,7 +152,8 @@ export default class ChapterListManagement extends React.Component {
                                                     onDeleteToggle={this.handleDeleteToggle}
                                                     onEditToggle={this.handleEditToggle}
                                                     onArticleToggle={this.props.onArticleToggle} 
-                                                    onLoadingChange={this.props.onLoadingChange} />
+                                                    onLoadingChange={this.props.onLoadingChange}
+                                                    part={this.props.part} />
                     }
                 </List>
             </div>
@@ -158,7 +161,7 @@ export default class ChapterListManagement extends React.Component {
     }
 
     getChapters() {
-        getChapters().then(chapters => {
+        getChapters(this.props.part).then(chapters => {
             this.updateChapters(chapters);
         }).catch(err => {
             console.error('Error getting chapters', err);
@@ -205,7 +208,7 @@ export default class ChapterListManagement extends React.Component {
     // content management
     handleCreateChapter() {
         if (!!this.state.modalInputText && !!this.state.createModalContentType) {
-            createChapter(this.state.modalInputText, this.state.createModalContentType == 1 ? false : true).then(chapters => {
+            createChapter(this.state.modalInputText, this.state.createModalContentType == 1 ? false : true, this.props.part).then(chapters => {
                 this.updateChapters(chapters);
                 this.handleModalClose();
             }).catch(err => {
@@ -218,7 +221,7 @@ export default class ChapterListManagement extends React.Component {
     handleModifyChapter() {
         if (!!this.chapterToManage && !!this.state.modalInputText) {
             this.props.onLoadingChange(true, () => {
-                modifyChapter(this.chapterToManage, this.state.modalInputText).then(chapters => {
+                modifyChapter(this.chapterToManage, this.state.modalInputText, this.props.part).then(chapters => {
                     this.updateChapters(chapters, () => {
                         this.props.onLoadingChange(false);
                         this.handleModalClose();
@@ -238,7 +241,7 @@ export default class ChapterListManagement extends React.Component {
             this.props.onLoadingChange(true, () => {
                 this.isChildEmpty(isEmpty => {
                     if (isEmpty) {
-                        removeChapter(this.chapterToManage).then(chapters=> {
+                        removeChapter(this.chapterToManage, this.props.part).then(chapters=> {
                             this.updateChapters(chapters, () => {
                                 this.props.onLoadingChange(false);
                                 this.handleModalClose();

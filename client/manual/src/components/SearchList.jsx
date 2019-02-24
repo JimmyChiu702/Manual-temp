@@ -12,7 +12,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 
-import { getArticles } from 'api/content.js';
+import { getAllArticles } from 'api/content.js';
 
 import './SearchList.css';
 
@@ -81,7 +81,7 @@ export default class SearchList extends React.Component {
     }
 
     getArticles() {
-        getArticles().then(articles => {
+        getAllArticles(this.props.part).then(articles => {
             this.setState({articles: articles}, () => {
                 this.updateLikeIconDisplay(this.props.likeArticles);
             });

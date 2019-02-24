@@ -52,8 +52,8 @@ export default class SingleChapterManagement extends React.Component {
 
     render() {
         let child = this.props.chapter.isOnlyArticle ?
-                (<ArticleListManagement parentID={this.props.chapter._id} open={this.state.open} onArticleToggle={this.props.onArticleToggle} onLoadingChange={this.props.onLoadingChange} />) :
-                (<SectionListManagement chapterID={this.props.chapter._id} open={this.state.open} onArticleToggle={this.props.onArticleToggle} onLoadingChange={this.props.onLoadingChange} />);
+                (<ArticleListManagement part={this.props.part} chapterID={this.props.chapter._id} sectionID='' open={this.state.open} onArticleToggle={this.props.onArticleToggle} onLoadingChange={this.props.onLoadingChange} />) :
+                (<SectionListManagement part={this.props.part} chapterID={this.props.chapter._id} open={this.state.open} onArticleToggle={this.props.onArticleToggle} onLoadingChange={this.props.onLoadingChange} />);
         let chapterNumDisplay = (this.props.index >= 0 && this.props.index < this.chapterNum.length) ? `${this.chapterNum[this.props.index]}、` : '';
         
         return (

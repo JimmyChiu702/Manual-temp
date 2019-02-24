@@ -67,7 +67,7 @@ export default class SingleSectionManagement extends React.Component {
                         </ListItemSecondaryAction>
                     }
                 </ListItem>
-                <ArticleListManagement parentID={this.props.section._id} open={this.state.open} onArticleToggle={this.props.onArticleToggle} onLoadingChange={this.props.onLoadingChange} />
+                <ArticleListManagement chapterID={this.props.chapterID} sectionID={this.props.section._id} open={this.state.open} onArticleToggle={this.props.onArticleToggle} onLoadingChange={this.props.onLoadingChange} />
             </div>
         );
     }

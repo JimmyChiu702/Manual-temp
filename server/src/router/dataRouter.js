@@ -15,29 +15,33 @@ router.get('/getUserInfo', async (ctx, next) => {
     ctx.response.body = ctx.session.passport.user;
 });
 
-router.get('/getLikeArticles', async (ctx, next) => {
+router.get('/getLikeArticles/:part', async (ctx, next) => {
     ctx.response.type = 'json';
-    ctx.response.body = ctx.session.passport.user.like;
+    ctx.response.body = ctx.session.passport.user.like[ctx.params.part - 1];
 });
 
-router.post('/likeArticle/:articleID', async (ctx, next) => {
+router.post('/likeArticle/:articleID/:part', async (ctx, next) => {
     try {
         let userID = ctx.session.passport.user.userID;
-        let user = await User.findOneAndUpdate({userID: userID}, {$addToSet: {like: ctx.params.articleID}}, {new: true});
+        let updateOption = {$addToSet: {}};
+        updateOption['$addToSet'][`like_${ctx.params.part}`] = ctx.params.articleID;
+        let user = await User.findOneAndUpdate({userID: userID}, updateOption, {new: true});
         ctx.response.type = 'json';
-        ctx.response.body = user.like;
+        ctx.response.body = user[`like_${ctx.params.part}`];        
     } catch(err) {
         console.error(err);
         ctx.throw(400, err.message);
     }
 })
 
-router.post('/dislikeArticle/:articleID', async (ctx, next) => {
+router.post('/dislikeArticle/:articleID/:part', async (ctx, next) => {
     try {
         let userID = ctx.session.passport.user.userID;
-        let user = await User.findOneAndUpdate({userID: userID}, {$pull: {like: ctx.params.articleID}}, {new: true});
+        let updateOption = {$pull: {}};
+        updateOption['$pull'][`like_${ctx.params.part}`] = ctx.params.articleID;
+        let user = await User.findOneAndUpdate({userID: userID}, updateOption, {new: true});
         ctx.response.type = 'json';
-        ctx.response.body = user.like;
+        ctx.response.body = user[`like_${ctx.params.part}`];
     } catch(err) {
         console.error(err);
         ctx.throw(400, err.message);
@@ -72,9 +76,9 @@ router.get('/getArticles/:parentID', async (ctx, next) => {
     ctx.response.body = await contentModel.getArticles(ctx.params.parentID);
 });
 
-router.get('/getAllArticles', async (ctx, next) => {
+router.get('/getAllArticles/:part', async (ctx, next) => {
     ctx.response.type = 'json';
-    ctx.response.body = await contentModel.getArticles();
+    ctx.response.body = await contentModel.getAllArticles(ctx.params.part);
 });
 
 // Retrieval

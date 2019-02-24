@@ -97,7 +97,7 @@ export default class ChapterList extends React.Component {
     }
 
     getChapters() {
-        getChapters().then(chapters => {
+        getChapters(this.props.part).then(chapters => {
             let head = chapters.splice(chapters.findIndex(ch => ch.kind === 0), 1)[0];
             let tail = chapters.splice(chapters.findIndex(ch => ch.kind === 2), 1)[0];
             this.setState({head: head, tail: tail, chapters: chapters});

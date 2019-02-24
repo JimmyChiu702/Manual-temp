@@ -16,7 +16,7 @@ const app = new koa();
 mongoose.connect('mongodb://localhost/manual', {
     auth: {
         user: 'manualAdmin',
-        password: 'adminnthu12345'
+        password: 'nthu12345'
     }
 });
 
