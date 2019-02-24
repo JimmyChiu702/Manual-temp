@@ -7,6 +7,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Checkbox from '@material-ui/core/Checkbox';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
+import Typography from '@material-ui/core/Typography';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 
@@ -74,11 +75,12 @@ export default class ArticleList extends React.Component {
             <Collapse in={this.props.open} timeout='auto'>
                 <List component='div'>
                     {this.state.articles.map((obj, i) => (
-                        <ListItem key={i} button onClick={() => {this.props.onArticleToggle(obj.filename, obj.level, 
+                        <ListItem style={{paddingLeft: '3rem'}} key={i} button onClick={() => {this.props.onArticleToggle(obj.filename, obj.level, 
                                                                                                 {chapterText: this.props.chapterText, 
                                                                                                  sectionText: this.props.sectionText, 
                                                                                                  articleText: obj.articleText});}}>
-                            <ListItemText className='padding-left-60px' primary={`(${i<this.articleNum.length && this.articleNum[i]})、${obj.articleText}`} />
+                            <Typography style={{color: this.getRefColor(obj.level), width: '1rem'}}>{obj.level}</Typography>
+                            <ListItemText primary={`(${i<this.articleNum.length && this.articleNum[i]})、${obj.articleText}`} />
                             <ListItemSecondaryAction>
                                 <Checkbox icon={<FavoriteBorderIcon />} checkedIcon={<FavoriteIcon color='error'/>} onClick={event => {this.props.onLikeIconToggle(obj._id, event.target.checked)}} checked={this.state.isLikeIconChecked[i] || false}/>
                             </ListItemSecondaryAction>
@@ -104,5 +106,18 @@ export default class ArticleList extends React.Component {
             likeArticles.includes(obj._id) ? true : false 
         ));
         this.setState({isLikeIconChecked: temp});
+    }
+
+    getRefColor(ref) {
+        switch (ref) {
+            case 'A':
+                return 'rgb(255, 0, 214)';
+            case 'B':
+                return 'rgb(101, 174, 242)';
+            case 'C':
+                return 'rgb(108, 242, 105)';
+            default:
+                return 'gray';
+        }
     }
 }
