@@ -181,9 +181,9 @@ async function modifyArticle(articleID, newArticleText, file, level){
 async function getArticles(parentID = null){
     try {
         if (parentID)
-            return await Article.find({parentID: parentID}, null, {sort: {createdDate: 1}});
+            return await Article.find({parentID: parentID}, null, {sort: {level: 1, _id: 1}});
         else 
-            return await Article.find({}, null, {sort: {createdDate: 1}});
+            return await Article.find({}, null, {sort: {level: 1, _id: 1}});
         } catch(err) {
             throw err;
     }
@@ -192,9 +192,9 @@ async function getArticles(parentID = null){
 async function getAllArticles(part = null) {
     try {
         if (part)
-            return await Article.find({part: part},  null, {sort: {createdDate: 1}});
+            return await Article.find({part: part},  null, {sort: {level: 1, _id: 1}});
         else
-            return await Article.find({},  null, {sort: {createdDate: 1}});
+            return await Article.find({},  null, {sort: {level: 1, _id: 1}});
     } catch(err) {
         throw err;
     }

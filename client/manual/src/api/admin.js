@@ -1,7 +1,5 @@
 import axios from 'axios';
 
-const baseUrl = 'http://127.0.0.1';
-
 // CONTENT MANAGEMENT
 // create
 export function createChapter(chapterText, isOnlyArticle, part) {
