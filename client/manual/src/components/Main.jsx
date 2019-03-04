@@ -52,8 +52,12 @@ export default class Main extends React.Component {
                         <img src='/manual/images/Logo.png' id='logoImg'/>
                         <Tabs value={this.state.tabValue} onChange={this.handleTabsChange} style={{flexGrow: 1}} indicatorColor='primary'>
                             <Tab label={<Typography variant='subheading' color='secondary'>競賽手冊</Typography>} />
-                            {isAdmin &&  <Tab label={<Typography variant='subheading' color='secondary'>手冊內容管理</Typography>} />}
-                            {isAdmin &&  <Tab label={<Typography variant='subheading' color='secondary'>使用者管理</Typography>} />}
+                            <Tab label={<Typography variant='subheading' color='secondary'>國外學制</Typography>} />
+                            <Tab label={<Typography variant='subheading' color='secondary'>國外競賽</Typography>} />
+                            {isAdmin && <Tab label={<Typography variant='subheading' color='secondary'>手冊內容管理</Typography>} />}
+                            {isAdmin && <Tab label={<Typography variant='subheading' color='secondary'>國外學制管理</Typography>} />}
+                            {isAdmin && <Tab label={<Typography variant='subheading' color='secondary'>國外競賽管理</Typography>} />}
+                            {isAdmin && <Tab label={<Typography variant='subheading' color='secondary'>使用者管理</Typography>} />}
                         </Tabs>
                         <PersonIcon />
                         <div className='margin-right-30px'>
@@ -68,8 +72,12 @@ export default class Main extends React.Component {
                 </Typography>
                 
                 {this.state.tabValue==0 && <Content part={1} onLoadingChange={this.handleLoadingChange} />}
-                {(this.state.tabValue==1 && isAdmin) && <ContentManagement part={1} onLoadingChange={this.handleLoadingChange} />}
-                {(this.state.tabValue==2 && isAdmin) && <UserManagement onLoadingChange={this.handleLoadingChange} />}
+                {this.state.tabValue==1 && <Content part={2} onLoadingChange={this.handleLoadingChange} />}
+                {this.state.tabValue==2 && <Content part={3} onLoadingChange={this.handleLoadingChange} />}
+                {(this.state.tabValue==3 && isAdmin) && <ContentManagement part={1} onLoadingChange={this.handleLoadingChange} />}
+                {(this.state.tabValue==4 && isAdmin) && <ContentManagement part={2} onLoadingChange={this.handleLoadingChange} />}
+                {(this.state.tabValue==5 && isAdmin) && <ContentManagement part={3} onLoadingChange={this.handleLoadingChange} />}
+                {(this.state.tabValue==6 && isAdmin) && <UserManagement onLoadingChange={this.handleLoadingChange} />}
 
                 <Typography id='footer' variant='body2' align='center'>Copyright &#9400; 2017 國立清華大學教務處招生策略中心。版權所有</Typography>
             </div>

@@ -4694,8 +4694,6 @@ exports.default = _default;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_axios__);
 
 
-const baseUrl = 'http://127.0.0.1';
-
 // CONTENT MANAGEMENT
 // create
 function createChapter(chapterText, isOnlyArticle, part) {
@@ -11202,10 +11200,30 @@ class Main extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
                                 { variant: 'subheading', color: 'secondary' },
                                 '\u7AF6\u8CFD\u624B\u518A'
                             ) }),
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_5__material_ui_core_Tab___default.a, { label: __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                __WEBPACK_IMPORTED_MODULE_2__material_ui_core_Typography___default.a,
+                                { variant: 'subheading', color: 'secondary' },
+                                '\u570B\u5916\u5B78\u5236'
+                            ) }),
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_5__material_ui_core_Tab___default.a, { label: __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                __WEBPACK_IMPORTED_MODULE_2__material_ui_core_Typography___default.a,
+                                { variant: 'subheading', color: 'secondary' },
+                                '\u570B\u5916\u7AF6\u8CFD'
+                            ) }),
                         isAdmin && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_5__material_ui_core_Tab___default.a, { label: __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                 __WEBPACK_IMPORTED_MODULE_2__material_ui_core_Typography___default.a,
                                 { variant: 'subheading', color: 'secondary' },
                                 '\u624B\u518A\u5167\u5BB9\u7BA1\u7406'
+                            ) }),
+                        isAdmin && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_5__material_ui_core_Tab___default.a, { label: __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                __WEBPACK_IMPORTED_MODULE_2__material_ui_core_Typography___default.a,
+                                { variant: 'subheading', color: 'secondary' },
+                                '\u570B\u5916\u5B78\u5236\u7BA1\u7406'
+                            ) }),
+                        isAdmin && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_5__material_ui_core_Tab___default.a, { label: __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                __WEBPACK_IMPORTED_MODULE_2__material_ui_core_Typography___default.a,
+                                { variant: 'subheading', color: 'secondary' },
+                                '\u570B\u5916\u7AF6\u8CFD\u7BA1\u7406'
                             ) }),
                         isAdmin && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_5__material_ui_core_Tab___default.a, { label: __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                 __WEBPACK_IMPORTED_MODULE_2__material_ui_core_Typography___default.a,
@@ -11238,8 +11256,12 @@ class Main extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
                 '\u8A9E\u8A00\u6AA2\u5B9A\u8CC7\u8A0A\u67E5\u8A62\u5E73\u53F0'
             ),
             this.state.tabValue == 0 && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_10_components_Content_jsx__["a" /* default */], { part: 1, onLoadingChange: this.handleLoadingChange }),
-            this.state.tabValue == 1 && isAdmin && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_12_components_ContentManagement_jsx__["a" /* default */], { part: 1, onLoadingChange: this.handleLoadingChange }),
-            this.state.tabValue == 2 && isAdmin && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_13_components_UserManagement_jsx__["a" /* default */], { onLoadingChange: this.handleLoadingChange }),
+            this.state.tabValue == 1 && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_10_components_Content_jsx__["a" /* default */], { part: 2, onLoadingChange: this.handleLoadingChange }),
+            this.state.tabValue == 2 && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_10_components_Content_jsx__["a" /* default */], { part: 3, onLoadingChange: this.handleLoadingChange }),
+            this.state.tabValue == 3 && isAdmin && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_12_components_ContentManagement_jsx__["a" /* default */], { part: 1, onLoadingChange: this.handleLoadingChange }),
+            this.state.tabValue == 4 && isAdmin && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_12_components_ContentManagement_jsx__["a" /* default */], { part: 2, onLoadingChange: this.handleLoadingChange }),
+            this.state.tabValue == 5 && isAdmin && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_12_components_ContentManagement_jsx__["a" /* default */], { part: 3, onLoadingChange: this.handleLoadingChange }),
+            this.state.tabValue == 6 && isAdmin && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_13_components_UserManagement_jsx__["a" /* default */], { onLoadingChange: this.handleLoadingChange }),
             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                 __WEBPACK_IMPORTED_MODULE_2__material_ui_core_Typography___default.a,
                 { id: 'footer', variant: 'body2', align: 'center' },
