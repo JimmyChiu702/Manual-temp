@@ -9646,8 +9646,8 @@ class ArticleList extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Componen
                         } },
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                         __WEBPACK_IMPORTED_MODULE_8__material_ui_core_Typography___default.a,
-                        { style: { color: this.getRefColor(obj.level), width: '1rem' } },
-                        obj.level
+                        { style: { color: this.getRefColor(obj.level), width: '1rem', fontWeight: 'bold' } },
+                        obj.level != 'none' && obj.level
                     ),
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_5__material_ui_core_ListItemText___default.a, { primary: `(${i < this.articleNum.length && this.articleNum[i]})、${obj.articleText}` }),
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
@@ -9857,6 +9857,11 @@ class ArticleListManagement extends __WEBPACK_IMPORTED_MODULE_0_react___default.
                                             value: this.state.articleLevel,
                                             onChange: this.handleModalSelectChange
                                         },
+                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                            __WEBPACK_IMPORTED_MODULE_13__material_ui_core_MenuItem___default.a,
+                                            { value: 'none' },
+                                            '\u7121'
+                                        ),
                                         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                             __WEBPACK_IMPORTED_MODULE_13__material_ui_core_MenuItem___default.a,
                                             { value: 'A' },
@@ -10086,7 +10091,7 @@ class ArticleListManagement extends __WEBPACK_IMPORTED_MODULE_0_react___default.
     }
 
     handleCreateArticle() {
-        if (!!this.uploadFile.files[0] && !!this.state.modalInputText && !!this.props.chapterID && !!this.props.sectionID && !!this.props.articleLevel) {
+        if (!!this.uploadFile.files[0] && !!this.state.modalInputText && !!this.props.chapterID && !!this.state.articleLevel) {
             const data = new FormData();
             data.append('file', this.uploadFile.files[0]);
             data.append('articleText', this.state.modalInputText);
@@ -36180,7 +36185,7 @@ class Content extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                     __WEBPACK_IMPORTED_MODULE_3__material_ui_core_Paper___default.a,
                     { id: 'articleContentDisplay' },
-                    this.state.articleLevel != '' && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    this.state.articleLevel != 'none' && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                         __WEBPACK_IMPORTED_MODULE_10__material_ui_core_Grid___default.a,
                         { id: 'ref-container', container: true },
                         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
@@ -36367,7 +36372,7 @@ class ContentManagement extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Co
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                     __WEBPACK_IMPORTED_MODULE_3__material_ui_core_Paper___default.a,
                     { id: 'articleContentDisplay' },
-                    this.state.articleLevel != '' && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    this.state.articleLevel != 'none' && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                         __WEBPACK_IMPORTED_MODULE_5__material_ui_core_Grid___default.a,
                         { id: 'ref-container', container: true },
                         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(

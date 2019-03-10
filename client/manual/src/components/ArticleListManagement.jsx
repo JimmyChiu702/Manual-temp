@@ -106,6 +106,7 @@ export default class ArticleListManagement extends React.Component {
                                             value={this.state.articleLevel}
                                             onChange={this.handleModalSelectChange}
                                         >
+                                            <MenuItem value='none'>無</MenuItem>
                                             <MenuItem value='A'>A</MenuItem>
                                             <MenuItem value='B'>B</MenuItem>     
                                             <MenuItem value='C'>C</MenuItem>     
@@ -234,7 +235,7 @@ export default class ArticleListManagement extends React.Component {
     }
 
     handleCreateArticle() {
-        if (!!this.uploadFile.files[0] && !!this.state.modalInputText && !!this.props.chapterID && !!this.props.sectionID && !!this.props.articleLevel) {
+        if (!!this.uploadFile.files[0] && !!this.state.modalInputText && !!this.props.chapterID && !!this.state.articleLevel) {
             const data = new FormData();
             data.append('file', this.uploadFile.files[0]);
             data.append('articleText', this.state.modalInputText);

@@ -11,7 +11,7 @@ const chapterSchema = new Schema({
     isOnlyArticle: Boolean,                             // if thfe chapter contains only articles, not any section
     createdDate: { type: Date, default: Date.now },
     kind: { type: Number, default: 1 },                 // 0=>head, 1=>content, 2=>tail
-    part: { type: Number, default: 1 },                 // indicating which part of content if belongs to
+    part: { type: Number, default: 1, required: true },                 // indicating which part of content if belongs to
     index: { type: Number, required: true }
 });
 const Chapter = mongoose.model('Chapter', chapterSchema);
@@ -136,7 +136,7 @@ async function createArticle(articleText, chapterID, sectionID, uploadFilePath, 
             chapterID: chapterID,
             sectionID: sectionID,
             filename: uploadFileName,
-            level: level,
+            level: level!='none'?level:none,
             index: articleNum,
             part: part
         });

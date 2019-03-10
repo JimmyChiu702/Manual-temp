@@ -38,7 +38,7 @@ export default class ContentManagement extends React.Component {
                     onClose={this.handleModalClose}
                 >
                     <Paper id='articleContentDisplay'>
-                        {this.state.articleLevel != '' && 
+                        {this.state.articleLevel != 'none' && 
                             <Grid id='ref-container' container>
                                 <Grid xs={2} item>
                                     <Typography style={{marginTop: '0.5rem'}}>

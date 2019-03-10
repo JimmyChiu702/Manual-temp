@@ -1,0 +1,36 @@
+{
+    "name": "workshop",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "build": "webpak -p",
+        "watch": "webpack -w",
+        "start": "webpack-dev-server",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "@material-ui/core": "^3.9.2",
+        "@material-ui/icons": "^3.0.2",
+        "axios": "^0.18.0",
+        "prop-types": "^15.7.2",
+        "react": "^16.8.4",
+        "react-dom": "^16.8.4"
+    },
+    "devDependencies": {
+        "babel-core": "^6.24.0",
+        "babel-loader": "^6.4.1",
+        "babel-plugin-transform-class-properties": "^6.23.0",
+        "babel-plugin-transform-object-rest-spread": "^6.23.0",
+        "babel-preset-es2016": "^6.24.1",
+        "babel-preset-es2017": "^6.24.1",
+        "babel-preset-react": "^6.23.0",
+        "css-loader": "^0.27.3",
+        "style-loader": "^0.14.1",
+        "uglifyjs-webpack-plugin": "^1.0.0-rc.0",
+        "webpack": "^2.3.1",
+        "webpack-dev-server": "^2.4.2"
+    }
+}

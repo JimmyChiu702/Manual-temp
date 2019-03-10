@@ -79,7 +79,7 @@ export default class ArticleList extends React.Component {
                                                                                                 {chapterText: this.props.chapterText, 
                                                                                                  sectionText: this.props.sectionText, 
                                                                                                  articleText: obj.articleText});}}>
-                            <Typography style={{color: this.getRefColor(obj.level), width: '1rem'}}>{obj.level}</Typography>
+                            <Typography style={{color: this.getRefColor(obj.level), width: '1rem', fontWeight: 'bold'}}>{obj.level!='none'&&obj.level}</Typography>
                             <ListItemText primary={`(${i<this.articleNum.length && this.articleNum[i]})、${obj.articleText}`} />
                             <ListItemSecondaryAction>
                                 <Checkbox icon={<FavoriteBorderIcon />} checkedIcon={<FavoriteIcon color='error'/>} onClick={event => {this.props.onLikeIconToggle(obj._id, event.target.checked)}} checked={this.state.isLikeIconChecked[i] || false}/>
