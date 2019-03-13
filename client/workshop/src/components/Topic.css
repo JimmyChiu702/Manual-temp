@@ -1,7 +1,6 @@
 .player-container {
-    width: 50vw;
-    height: 50vh;
     margin: 1rem auto;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.5);
 }
 
 .topic-container {
@@ -12,6 +11,16 @@
 
 .question {
     margin-bottom: 3rem;
+}
+
+.question span, .question p, .opinion-box-container p, .introduction-text {
+    font-size: 1.2rem !important;
+}
+
+.introduction-text {
+    padding-left: 3rem;
+    padding-right: 3rem;
+    padding-bottom: 2rem;
 }
 
 .question-container {
@@ -35,4 +44,10 @@
 .answer-container {
     padding-left: 3rem;
     padding-right: 3rem;
+}
+
+.title {
+    padding-left: 3rem;
+    padding-right: 3rem;
+    padding-bottom: 2rem;
 }

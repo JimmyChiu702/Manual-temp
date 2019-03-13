@@ -18,4 +18,10 @@
     height: 12rem;
     border-radius: 2rem !important;
     border-width: 3px !important;
+    text-align: center;
+}
+
+#logoImg {
+    height: 40px;
+    width: auto;
 }

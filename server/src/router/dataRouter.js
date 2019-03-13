@@ -81,6 +81,4 @@ router.get('/getAllArticles/:part', async (ctx, next) => {
     ctx.response.body = await contentModel.getAllArticles(ctx.params.part);
 });
 
-// Retrieval
-
 module.exports = router;

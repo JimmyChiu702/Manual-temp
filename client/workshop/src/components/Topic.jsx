@@ -24,38 +24,43 @@ export default class Topic extends React.Component {
         super(props);
         
         this.state = {
-            userInfo: null,
-            userAns: null,
+            isHelpful: null,
+            userAns: [],
             userOpinion: '',
-            isAnsDisplayed: false,
-            isAnsSubmitted: false
+            isSubmitted: false
         }
 
         this.queNum = ['一', '二', '三', '四', '五', '六', '七', '八', '九', '十'];
         this.optNum = ['A', 'B', 'C', 'D', 'E'];
 
+        this.handleRadioChange = this.handleRadioChange.bind(this);
         this.handleAnsChange = this.handleAnsChange.bind(this);
         this.handleOpinionInputChange = this.handleOpinionInputChange.bind(this);
-        this.handleOpinionSubmit = this.handleOpinionSubmit.bind(this);
-        this.handleUserAnsSubmit = this.handleUserAnsSubmit.bind(this);
-        this.handleAnsOpen = this.handleAnsOpen.bind(this);
-    }
-
-    componentDidMount() {
-        let ans = [];
-        for (let i=0; i<this.props.content.questions.length; i++) {
-            ans.push('A');
-        }
-        this.setState({userAns: ans});
-        this.getUserInfo();
+        this.handleUserSubmit = this.handleUserSubmit.bind(this);
     }
 
     render() {
         const content = this.props.content;
         return (
             <div className='topic-container'>
+                <Typography className='title' variant='display1' color='textPrimary' gutterBottom>{content.title}</Typography>
+                <Typography className='introduction-text'>您好，歡迎來到書面審查數位工作坊，請點選主題一影片，瞭解書面審查的目的；再用幾分鐘的時間，填寫對這部影片的簡單意見，再進行「牛刀小試」，完成後可點選「送出」確認答案。</Typography>
                 <div className='player-container'>
                     <Player src={content.videoUrl} />
+                </div>
+                <div className='opinion-box-container'>
+                    <Typography className='secondary-title' variant='display1' color='textPrimary' gutterBottom>意見欄</Typography>
+                    <Typography color='textPrimary' gutterBottom>請問這部影片對您有幫助嗎?</Typography>
+                    <RadioGroup value={this.state.isHelpful} onChange={this.handleRadioChange}>
+                        <FormControlLabel value='Yes' control={<Radio color="primary" />} label='有' />
+                        <FormControlLabel value='No' control={<Radio color="primary" />} label='沒有' />
+                    </RadioGroup>
+                    <TextField value={this.state.userOpinion} 
+                            onChange={this.handleOpinionInputChange}
+                            label='寫下您寶貴的意見'
+                            margin='normal'
+                            variant='outlined'
+                            fullWidth />
                 </div>
                 <div className='question-container'>
                     <Typography className='secondary-title' variant='display1' color='textPrimary' gutterBottom>牛刀小試</Typography>
@@ -69,29 +74,21 @@ export default class Topic extends React.Component {
                                     ))}
                                 </RadioGroup>
                             </FormControl>
-                            <Collapse in={this.state.isAnsDisplayed} className='answer-container'>
-                                <Typography color='inherit' style={{color: this.state.userAns[i]==question.answer.option?'limeGreen':'red'}}>{question.answer.description}</Typography>
+                            <Collapse in={this.state.isSubmitted} className='answer-container'>
+                                <Typography style={{color: this.state.userAns[i]==question.answer.option?'blue':'red'}}>{question.answer.description}</Typography>
                             </Collapse>
                         </div>
                     ))}
-                    <Button variant="outlined" color="primary" className='confirm-btn' size='large' onClick={this.handleUserAnsSubmit} disabled={this.state.isAnsSubmitted}>送出</Button>
+                    <Button variant="outlined" color="primary" className='confirm-btn' size='large' onClick={this.handleUserSubmit} disabled={this.state.isSubmitted}>送出</Button>
                 </div>
-                <form className='opinion-box-container'>
-                    <Typography className='secondary-title' variant='display1' color='textPrimary' gutterBottom>意見欄</Typography>
-                    <TextField value={this.state.userOpinion} 
-                            onChange={this.handleOpinionInputChange}
-                            label='寫下您寶貴的意見'
-                            margin='normal'
-                            variant='outlined'
-                            fullWidth />
-                    <Button variant="outlined" color="primary" className='confirm-btn' size='large' onClick={this.handleOpinionSubmit}>送出</Button> 
-                </form>
             </div>
         );
     }
 
-    getUserInfo() {
-
+    handleRadioChange(event) {
+        if (!this.state.isSubmitted) {
+            this.setState({isHelpful: event.target.value});
+        }
     }
 
     handleAnsChange(ans, qNum) {
@@ -103,19 +100,23 @@ export default class Topic extends React.Component {
     }
 
     handleOpinionInputChange(event) {
-        this.setState({userOpinion: event.target.value})
+        if (!this.state.isSubmitted) {
+            this.setState({userOpinion: event.target.value})
+        }
     }
 
-    handleOpinionSubmit() {
-        this.setState({userOpinion: ''});
-    }
-
-    handleUserAnsSubmit() {
-        this.setState({isAnsSubmitted: true})
-        this.handleAnsOpen();
-    }
-
-    handleAnsOpen() {
-        this.setState({isAnsDisplayed: true});
+    handleUserSubmit() {
+        let isFinished = !!this.state.isHelpful && !!this.state.userAns.length>0;
+        if (isFinished) {
+            for (let i=0; i<this.state.userAns.length; i++) {
+                if (!this.state.userAns[i])
+                    isFinished = false;
+            }
+        }
+        if (isFinished) {
+            this.setState({isSubmitted: true})
+        } else {
+            alert('請完成全部的問題再送出喔!')
+        }
     }
 }

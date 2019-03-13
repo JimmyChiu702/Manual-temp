@@ -10,6 +10,8 @@ import PersonIcon from '@material-ui/icons/Person';
 
 import Topic from 'components/Topic.jsx';
 
+import { getUserInfo } from 'api/workshop.js';
+
 import './Main.css';
 
 export default class Main extends React.Component {
@@ -18,14 +20,14 @@ export default class Main extends React.Component {
 
         this.state = {
             topicNum: 0,
-            userInfo: {
-                departmentName: "TEST"
-            }
+            userInfo: null
         }
+
 
         this.content = [
             {
-                videoUrl: "https://www.youtube.com/watch?v=qy5ldGXjHOg",
+                title: '主題一、書面審查的目的',
+                videoUrl: "/video/topic_1.mp4",
                 questions: [
                     {
                         description: "書面審查的目的，是為了比較和排序考生。",
@@ -38,7 +40,7 @@ export default class Main extends React.Component {
                             description: "答案(B)，書面審查的目的，不是為了比較和排序考生，而是以學系（班）的審查共識，鑑別出最適合學系（班）招生特色與需求的考生。"
                         }
                     },{
-                        description: "以下對「書面審查評量尺規」的說明，何者有誤？",
+                        description: '以下對「書面審查評量尺規」的說明，何者"有誤？"',
                         options: [
                             "是審查委員依據學系（班）的招生需求而共同制定。",
                             "是學系（班）的審查評分共識。",
@@ -50,7 +52,7 @@ export default class Main extends React.Component {
                             description: "答案(C)，審查評量尺規的部分內容，將於109學年度對外公告，以協助考生瞭解學系（班）的審查標準和準備方向。"
                         }        
                     },{
-                        description: "以下針對書面審查流程SOP中之目的與重要執行事項的說明，何者正確？",
+                        description: '以下針對書面審查流程SOP中之目的與重要執行事項的說明，何者"正確"？',
                         options: [
                             "審查前，最重要的是建立分組共識與評分共識。",
                             "審查前會議中，學系（班）確認每一位審查委員都已瞭解尺規內涵的過程，稱為「分組共識」。",
@@ -68,13 +70,19 @@ export default class Main extends React.Component {
 
         this.handleTopicChange = this.handleTopicChange.bind(this);
     }
+    
+    componentDidMount() {
+        this.getUserInfo();
+    }
 
     render() {
         return (
             <div>
                 <AppBar position='static' color='primary'>
                     <Toolbar>
-                        <img src='/manual/images/Logo.png' id='logoImg'/>
+                        <a href='/entry'>
+                            <img src='/workshop/images/Logo.png' id='logoImg'/>
+                        </a>
                         <div style={{flex: 'auto'}}></div>
                         <PersonIcon className='margin-right-10px'/>
                         <div className='margin-right-30px'>
@@ -98,6 +106,14 @@ export default class Main extends React.Component {
                 {this.state.topicNum==0 && <Topic content={this.content[0]} />}
             </div>
         );
+    }
+
+    getUserInfo() {
+        getUserInfo().then(userInfo => {
+            this.setState({userInfo: userInfo});
+        }).catch(err => {
+            console.error('Error getting user information', err);
+        });
     }
 
     handleTopicChange(event, num) {

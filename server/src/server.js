@@ -10,6 +10,7 @@ const passport = require('koa-passport');
 const loginRouter = require('./router/loginRouter');
 const dataRouter = require('./router/dataRouter');
 const adminRouter = require('./router/adminRouter');
+const videoRouter = require('./router/videoRouter');
 
 const app = new koa();
 
@@ -41,6 +42,7 @@ app.use(koaMount('/entry', koaStatic(path.resolve(__dirname, '../dist/entry'))))
 app.use(koaMount('/manual', koaStatic(path.resolve(__dirname, '../dist/manual'))));
 app.use(koaMount('/workshop', koaStatic(path.resolve(__dirname, '../dist/workshop'))));
 app.use(dataRouter.routes());
+app.use(videoRouter.routes());
 
 // admin page & admin operation
 app.use(adminRouter.routes());

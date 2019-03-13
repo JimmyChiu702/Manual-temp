@@ -4,7 +4,7 @@ const koaRouter = require('koa-router');
 const router = new koaRouter();
 
 const loginOption = {
-    successRedirect: '/manual',
+    successRedirect: '/entry',
     failureRedirect: '/login'
 };
 const requireLogin = passport.authenticate('local', loginOption);
