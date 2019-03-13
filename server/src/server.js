@@ -37,7 +37,9 @@ app.use(koaMount('/login', koaStatic(path.resolve(__dirname, '../dist/login'))))
 app.use(loginRouter.routes());
 
 // manual page & data router
+app.use(koaMount('/entry', koaStatic(path.resolve(__dirname, '../dist/entry'))));
 app.use(koaMount('/manual', koaStatic(path.resolve(__dirname, '../dist/manual'))));
+app.use(koaMount('/workshop', koaStatic(path.resolve(__dirname, '../dist/workshop'))));
 app.use(dataRouter.routes());
 
 // admin page & admin operation
