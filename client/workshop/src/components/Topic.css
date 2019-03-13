@@ -1,0 +1,38 @@
+.player-container {
+    width: 50vw;
+    height: 50vh;
+    margin: 1rem auto;
+}
+
+.topic-container {
+    width: 50vw;
+    min-width: 700px;
+    margin: 3rem auto;
+}
+
+.question {
+    margin-bottom: 3rem;
+}
+
+.question-container {
+    padding: 3rem;
+}
+
+.opinion-box-container {
+    padding: 3rem !important;
+}
+
+.secondary-title {
+    margin-bottom: 1rem;
+    color: black;
+}
+
+.options-container {
+    margin-left: 2rem !important;
+    margin-top: 1rem !important;
+}
+
+.answer-container {
+    padding-left: 3rem;
+    padding-right: 3rem;
+}
