@@ -17,12 +17,19 @@ import './Topic.css';
 
 export default class Topic extends React.Component {
     static propTypes = {
-        content: PropTypes.object
+        content: PropTypes.object,
+        onNextTopicToggle: PropTypes.func,
+        isLastTopic: PropTypes.bool
     };
+
+    static defaultProps = {
+        isLastTopic: false,
+        onNextTopicToggle: () => {}
+    }
 
     constructor(props) {
         super(props);
-        
+
         this.state = {
             isHelpful: null,
             userAns: [],
@@ -79,7 +86,11 @@ export default class Topic extends React.Component {
                             </Collapse>
                         </div>
                     ))}
-                    <Button variant="outlined" color="primary" className='confirm-btn' size='large' onClick={this.handleUserSubmit} disabled={this.state.isSubmitted}>送出</Button>
+                    <Button variant="outlined" color="primary" className='btn' size='large' onClick={this.handleUserSubmit} disabled={this.state.isSubmitted}>送出</Button>
+                    {!this.props.isLastTopic ? 
+                        <Button variant="outlined" color="primary" className='btn' size='large' onClick={this.props.onNextTopicToggle} disabled={!this.state.isSubmitted}>下一個主題</Button>:
+                        <span>{this.state.isSubmitted && <Typography variant='body1' inline>已經是最後的主題了喔 !</Typography>}</span>
+                    }
                 </div>
             </div>
         );

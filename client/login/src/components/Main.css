@@ -3,7 +3,11 @@
     width: 100%;
     height: auto;
     padding: 4rem;
-    margin: 10% auto auto auto;
+    margin: 3vh auto auto auto;
+}
+
+#headline {
+    margin-top: 10vh;
 }
 
 .formControl {

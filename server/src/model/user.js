@@ -4,12 +4,13 @@ const bcrypt = require('bcrypt');
 
 const userSchema = new Schema({
     userID: { type: String, required: true, unique: true, lowercase: true },
-    departmentName: { type: String, required: true },
     password: { type: String, required: true},
+    userName: { type: String, required: true},
+    departmentID: { type: String, required: true },
+    departmentName: { type: String, required: true },
     like_1: [String],
     like_2: [String],
-    like_3: [String],
-    index: {type: Number, required: true, unique: true}
+    like_3: [String]
 });
 
 userSchema.pre('save', function(next) {
@@ -33,17 +34,17 @@ userSchema.methods.authenticate = function(password, callback) {
 
 const User = mongoose.model('User', userSchema);
 
-async function createUser(userID, departmentName, password) {
+async function createUser(userID, password, userName, departmentName) {
     try {
-        var userNum = await User.count();
         var newUser = new User({
             userID: userID,
-            departmentName: departmentName,
             password: password,
+            userName: userName,
+            departmentID,
+            departmentName: departmentName,
             like_1: [],
             like_2: [],
-            like_3: [],
-            index: userNum
+            like_3: []
         });
         await newUser.save();
         return await getAllUsers();
@@ -54,17 +55,18 @@ async function createUser(userID, departmentName, password) {
 
 async function removeUser(user_id) {
     try {
-        let removedUser = await User.findByIdAndRemove(user_id);
-        await User.updateMany({index: {$gt: removedUser.index}}, {$inc: {index: -1}});
+        await User.findByIdAndRemove(user_id);
         return await getAllUsers();
     } catch(err) {
         throw err;
     }
 }
 
-async function modifyUser(user_id, userID, departmentName, password) {
+async function modifyUser(user_id, userName, userID, departmentName, password) {
     try {
         var update = {};
+        if (!!userName)
+            update.userName = userName;
         if (!!userID)
             update.userID = userID;
         if (!!departmentName)
@@ -80,7 +82,7 @@ async function modifyUser(user_id, userID, departmentName, password) {
 
 async function getAllUsers() {
     try {
-        return await User.find({}, null, {sort: {index: 1}});
+        return await User.find({}, null, {sort: {_id: 1}});
     } catch(err) {
         throw err;
     }

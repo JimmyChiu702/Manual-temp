@@ -10589,16 +10589,42 @@ class Main extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
                     description: "答案(C)，審查評量尺規的部分內容，將於109學年度對外公告，以協助考生瞭解學系（班）的審查標準和準備方向。"
                 }
             }, {
-                description: '以下針對書面審查流程SOP中之目的與重要執行事項的說明，何者"正確"？',
-                options: ["審查前，最重要的是建立分組共識與評分共識。", "審查前會議中，學系（班）確認每一位審查委員都已瞭解尺規內涵的過程，稱為「分組共識」。", "審查期間，審查委員應獨立審查，避免有任何的意見交流，以免影響評分結果。", "審查後，若考生的成績有差異，學系（班）應尊重個別審查委員的評分，無須討論或調整分數。"],
+                description: '以下針對書面審查流程SOP中之目的與重要執行事項的說明，何者"錯誤"？',
+                options: ["審查前，最重要的是建立分組共識與評分共識。", "審查前會議中，學系（班）確認每一位審查委員都已瞭解尺規內涵的過程，稱為「分組共識」。", "審查期間，審查委員應建立連絡熱線並進行討論。 ", "審查後，若考生的評分有差異，學系（班）在審查後會議中，請委員提出評分觀點，進行充分討論後達到有共識的分數。"],
                 answer: {
-                    option: 'C',
-                    description: "答案(C)，審查前會議中，學系（班）確認每一位審查委員都已瞭解尺規內涵的過程，稱為「尺規校準」，是指審查委員以尺規試評、並確認尺規的評分面向與尺度。"
+                    option: 'B',
+                    description: "答案(B)，審查前會議中，學系（班）確認每一位審查委員都已瞭解尺規內涵的過程，稱為「尺規校準」，是指審查委員以尺規試評、並確認尺規的評分面向與尺度。"
+                }
+            }]
+        }, {
+            title: '主題二、審查委員和審查機制',
+            videoUrl: "/video/topic_2.mp4",
+            questions: [{
+                description: "依據國立清華大學各學系（班／組）辦理招生試務作業要點，以下對審查委員之聘任規定，何者有誤？",
+                options: ["學系（班）應依教師專長與研究方向聘任委員，或經該學系（班）之招生委員同意後，聘請校外委員擔任。", "審查委員以三人（或以上）為原則。", "審查委員必須全程參與審查工作。", "只要無二等親內之親屬報考者，便能擔任審查委員。"],
+                answer: {
+                    option: 'D',
+                    description: "答案(D)，無三等親內之親屬報考者，始得擔任審查委員。"
+                }
+            }, {
+                description: '審查分組共識的目的，是為了達到各組考生人數與程度異質化，以確保評分的一致性。',
+                options: ["正確", "不正確"],
+                answer: {
+                    option: 'B',
+                    description: "答案(B)，審查分組共識，是為了達到各組考生的人數與程度均質化，也就是應各組的人數和組成應盡量相似。"
+                }
+            }, {
+                description: '下列哪一個選項不是確保審查分數常態化的步驟？',
+                options: ["透過討論制度，解決差分問題。", "以等第百分制評分，減少委員認知負荷。", "確認審查委員評分的平均值一致。", "清楚界定各等第人數分佈，以正取、備取、或不錄取，作為人數分佈準則。"],
+                answer: {
+                    option: 'A',
+                    description: "答案(A)，步驟A為解決評分差異的方式，非評分標準化步驟；BCD為確保審查分數常態化的重要步驟。"
                 }
             }]
         }];
 
         this.handleTopicChange = this.handleTopicChange.bind(this);
+        this.handleNextTopicToggle = this.handleNextTopicToggle.bind(this);
     }
 
     componentDidMount() {
@@ -10648,13 +10674,15 @@ class Main extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
                         indicatorColor: 'primary',
                         centered: true
                     },
-                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_7__material_ui_core_Tab___default.a, { label: '\u4E3B\u984C\u4E00' }),
-                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_7__material_ui_core_Tab___default.a, { label: '\u4E3B\u984C\u4E8C' }),
-                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_7__material_ui_core_Tab___default.a, { label: '\u4E3B\u984C\u4E09' }),
-                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_7__material_ui_core_Tab___default.a, { label: '\u4E3B\u984C\u56DB' })
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_7__material_ui_core_Tab___default.a, { label: '\u5BE9\u67E5\u76EE\u7684' }),
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_7__material_ui_core_Tab___default.a, { label: '\u59D4\u54E1\u8207\u6A5F\u5236' }),
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_7__material_ui_core_Tab___default.a, { label: '\u5DEE\u5206\u6AA2\u6838' }),
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_7__material_ui_core_Tab___default.a, { label: '\u5C3A\u898F\uFF08\u9AD8\u4E2D\u5B78\u7FD2\u8868\u73FE\uFF09' }),
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_7__material_ui_core_Tab___default.a, { label: '\u5C3A\u898F\uFF08\u591A\u5143\u8868\u73FE\u8207\u7279\u8CEA\uFF09' })
                 )
             ),
-            this.state.topicNum == 0 && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_9_components_Topic_jsx__["a" /* default */], { content: this.content[0] })
+            this.state.topicNum == 0 && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_9_components_Topic_jsx__["a" /* default */], { content: this.content[0], onNextTopicToggle: this.handleNextTopicToggle }),
+            this.state.topicNum == 1 && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_9_components_Topic_jsx__["a" /* default */], { content: this.content[1], onNextTopicToggle: this.handleNextTopicToggle, isLastTopic: true })
         );
     }
 
@@ -10668,6 +10696,12 @@ class Main extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
 
     handleTopicChange(event, num) {
         this.setState({ topicNum: num });
+    }
+
+    handleNextTopicToggle() {
+        this.setState(prevState => ({ topicNum: prevState.topicNum + 1 }), () => {
+            window.scrollTo(0, 0);
+        });
     }
 }
 /* harmony export (immutable) */ __webpack_exports__["a"] = Main;
@@ -26641,8 +26675,21 @@ class Topic extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
                 )),
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                     __WEBPACK_IMPORTED_MODULE_8__material_ui_core_Button___default.a,
-                    { variant: 'outlined', color: 'primary', className: 'confirm-btn', size: 'large', onClick: this.handleUserSubmit, disabled: this.state.isSubmitted },
+                    { variant: 'outlined', color: 'primary', className: 'btn', size: 'large', onClick: this.handleUserSubmit, disabled: this.state.isSubmitted },
                     '\u9001\u51FA'
+                ),
+                !this.props.isLastTopic ? __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    __WEBPACK_IMPORTED_MODULE_8__material_ui_core_Button___default.a,
+                    { variant: 'outlined', color: 'primary', className: 'btn', size: 'large', onClick: this.props.onNextTopicToggle, disabled: !this.state.isSubmitted },
+                    '\u4E0B\u4E00\u500B\u4E3B\u984C'
+                ) : __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    'span',
+                    null,
+                    this.state.isSubmitted && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        __WEBPACK_IMPORTED_MODULE_2__material_ui_core_Typography___default.a,
+                        { variant: 'body1', inline: true },
+                        '\u5DF2\u7D93\u662F\u6700\u5F8C\u7684\u4E3B\u984C\u4E86\u5594 !'
+                    )
                 )
             )
         );
@@ -26685,7 +26732,13 @@ class Topic extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
 /* harmony export (immutable) */ __webpack_exports__["a"] = Topic;
 
 Topic.propTypes = {
-    content: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.object
+    content: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.object,
+    onNextTopicToggle: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.func,
+    isLastTopic: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.bool
+};
+Topic.defaultProps = {
+    isLastTopic: false,
+    onNextTopicToggle: () => {}
 };
 
 /***/ }),
@@ -28774,7 +28827,7 @@ exports = module.exports = __webpack_require__(34)(undefined);
 
 
 // module
-exports.push([module.i, ".player-container{margin:1rem auto;box-shadow:0 4px 8px 0 rgba(0,0,0,.5)}.topic-container{width:90vw;max-width:700px;margin:3rem auto}.question{margin-bottom:3rem}.introduction-text,.opinion-box-container p,.question p,.question span{font-size:1.2rem!important}.introduction-text{padding-left:3rem;padding-right:3rem;padding-bottom:2rem}.question-container{padding:3rem}.opinion-box-container{padding:3rem!important}.secondary-title{margin-bottom:1rem;color:#000}.options-container{margin-left:2rem!important;margin-top:1rem!important}.answer-container,.title{padding-left:3rem;padding-right:3rem}.title{padding-bottom:2rem}", ""]);
+exports.push([module.i, ".player-container{margin:1rem auto;box-shadow:0 4px 8px 0 rgba(0,0,0,.5)}.topic-container{width:90vw;max-width:700px;margin:3rem auto}.question{margin-bottom:3rem}.introduction-text,.opinion-box-container p,.question p,.question span{font-size:1.2rem!important}.introduction-text{padding-left:3rem;padding-right:3rem;padding-bottom:2rem}.question-container{padding:3rem}.opinion-box-container{padding:3rem!important}.secondary-title{margin-bottom:1rem;color:#000}.options-container{margin-left:2rem!important;margin-top:1rem!important}.answer-container,.title{padding-left:3rem;padding-right:3rem}.title{padding-bottom:2rem}.btn{margin-right:10px!important}", ""]);
 
 // exports
 

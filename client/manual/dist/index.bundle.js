@@ -11196,7 +11196,11 @@ class Main extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                     __WEBPACK_IMPORTED_MODULE_3__material_ui_core_Toolbar___default.a,
                     null,
-                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('img', { src: '/manual/images/Logo.png', id: 'logoImg' }),
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        'a',
+                        { href: '/entry' },
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('img', { src: '/manual/images/Logo.png', id: 'logoImg' })
+                    ),
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                         __WEBPACK_IMPORTED_MODULE_4__material_ui_core_Tabs___default.a,
                         { value: this.state.tabValue, onChange: this.handleTabsChange, style: { flexGrow: 1 }, indicatorColor: 'primary' },

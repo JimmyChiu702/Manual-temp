@@ -51,3 +51,7 @@
     padding-right: 3rem;
     padding-bottom: 2rem;
 }
+
+.btn {
+    margin-right: 10px !important;
+}

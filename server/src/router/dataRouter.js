@@ -50,7 +50,6 @@ router.post('/dislikeArticle/:articleID/:part', async (ctx, next) => {
 
 // Content
 router.get('/document/:filename', async (ctx, next) => {
-    var filename = ctx.params.filename;
     if (Object.keys(ctx.request.query).length > 0) {
         try {
             recordArticleHitInfo(ctx.session.passport.user, ctx.request.query);

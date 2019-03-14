@@ -31,6 +31,7 @@ export default class Main extends React.Component {
     render() {
         return (
             <div>
+                <Typography variant='display3' align='center' id='headline' gutterBottom>清華招生專業化平台</Typography>
                 <Paper id='container'>
                     <Typography variant='headline'>登入</Typography>
                     <form action='/login' method='POST'>

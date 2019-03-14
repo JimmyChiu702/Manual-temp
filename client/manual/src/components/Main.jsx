@@ -49,7 +49,9 @@ export default class Main extends React.Component {
                 </Modal>
                 <AppBar position='static' color='primary'>
                     <Toolbar>
-                        <img src='/manual/images/Logo.png' id='logoImg'/>
+                        <a href='/entry'>
+                            <img src='/manual/images/Logo.png' id='logoImg'/>
+                        </a>
                         <Tabs value={this.state.tabValue} onChange={this.handleTabsChange} style={{flexGrow: 1}} indicatorColor='primary'>
                             <Tab label={<Typography variant='subheading' color='secondary'>競賽手冊</Typography>} />
                             <Tab label={<Typography variant='subheading' color='secondary'>國外學制</Typography>} />
