@@ -21,6 +21,8 @@ passport.use(new localStrategy((username, password, done) => {
 passport.serializeUser((user, done) => {
     done(null, {
         userID: user.userID,
+        userName: user.userName,
+        departmentID: user.departmentID,
         departmentName: user.departmentName,
         like: [user.like_1, user.like_2, user.like_3]
     });

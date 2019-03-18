@@ -4,6 +4,7 @@ const send = require('koa-send');
 const User = require('../model/user.js').User;
 const contentModel = require('../model/content.js');
 const recordArticleHitInfo = require('../model/record.js').recordArticleHitInfo;
+const submit = require('../model/workshop.js').submit;
 
 const router = new koaRouter();
 
@@ -79,5 +80,11 @@ router.get('/getAllArticles/:part', async (ctx, next) => {
     ctx.response.type = 'json';
     ctx.response.body = await contentModel.getAllArticles(ctx.params.part);
 });
+
+router.post('/submit', async (ctx, next) => {
+    const {userInfo, isHelpful, opinion, answer} = ctx.request.body;
+    ctx.response.type = 'json';
+    ctx.response.body = await submit(userInfo, isHelpful, opinion, answer);
+})
 
 module.exports = router;

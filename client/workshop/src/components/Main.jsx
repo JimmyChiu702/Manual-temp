@@ -9,6 +9,7 @@ import Tab from '@material-ui/core/Tab';
 import PersonIcon from '@material-ui/icons/Person';
 
 import Topic from 'components/Topic.jsx';
+import Introduction from 'components/Introduction.jsx';
 
 import { getUserInfo } from 'api/workshop.js';
 
@@ -127,7 +128,7 @@ export default class Main extends React.Component {
                         <div style={{flex: 'auto'}}></div>
                         <PersonIcon className='margin-right-10px'/>
                         <div className='margin-right-30px'>
-                            <Typography variant='subheading' color='secondary'>{!!this.state.userInfo && this.state.userInfo.departmentName}</Typography>            
+                            <Typography variant='subheading' color='secondary'>{!!this.state.userInfo && `${this.state.userInfo.departmentName} - ${this.state.userInfo.userName}`}</Typography>            
                         </div>
                         <Button className='margin-right-30px' variant='outlined' color='secondary' href='/logout'>登出</Button>
                     </Toolbar>
@@ -138,6 +139,7 @@ export default class Main extends React.Component {
                           indicatorColor="primary"
                           centered
                     >
+                        <Tab label='簡介' />
                         <Tab label='審查目的' />
                         <Tab label='委員與機制' />
                         <Tab label='差分檢核' />
@@ -145,8 +147,9 @@ export default class Main extends React.Component {
                         <Tab label='尺規（多元表現與特質）' />
                     </Tabs>
                 </Paper>
-                {this.state.topicNum==0 && <Topic content={this.content[0]} onNextTopicToggle={this.handleNextTopicToggle} />}
-                {this.state.topicNum==1 && <Topic content={this.content[1]} onNextTopicToggle={this.handleNextTopicToggle} isLastTopic/>}
+                {this.state.topicNum==0 && <Introduction onNextTopicToggle={this.handleNextTopicToggle} />}
+                {this.state.topicNum==1 && <Topic topicNum={0} userInfo={this.state.userInfo} content={this.content[0]} onNextTopicToggle={this.handleNextTopicToggle} />}
+                {this.state.topicNum==2 && <Topic topicNum={1} userInfo={this.state.userInfo} content={this.content[1]} onNextTopicToggle={this.handleNextTopicToggle} isLastTopic/>}
             </div>
         );
     }

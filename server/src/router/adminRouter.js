@@ -148,12 +148,12 @@ router.post('/modify/article', async (ctx, next) => {
 // USER MANAGEMENT
 // create user 
 router.post('/create/user', async (ctx, next) => {
-    const {userID, departmentName, password} = ctx.request.body;
+    const {userID, userName, password, departmentID, departmentName} = ctx.request.body;
     if (!userID || !departmentName || !password)
         ctx.throw(400, 'userID , department name ,and password text are required !');
     try {
         ctx.response.type = 'json';
-        ctx.response.body = await createUser(userID, departmentName, password);
+        ctx.response.body = await createUser(userID, userName, password, departmentID, departmentName);
     } catch(err) {
         console.error(err);
         ctx.throw(400, err.message);
@@ -169,19 +169,19 @@ router.post('/remove/user', async (ctx, next) => {
         ctx.response.type = 'json';
         ctx.response.body = await removeUser(user_id);
     } catch(err) {
-        console.error(err)
+        console.error(err);
         ctx.throw(400, err.message);
     }
 });
 
 // modify user
 router.post('/modify/user', async (ctx, next) => {
-    const {user_id, userID, departmentName, password} = ctx.request.body;
-    if (!user_id || (!userID && !departmentName && !password))
+    const {user_id, userID, userName, password, departmentID, departmentName} = ctx.request.body;
+    if (!user_id || (!userID && !userName && departmentID && !departmentName && !password))
         ctx.throw(400, 'User_id, userID, department name, and password are required !');
     try {
         ctx.response.type = 'json';
-        ctx.response.body = await modifyUser(user_id, userID, departmentName, password);
+        ctx.response.body = await modifyUser(user_id, userID, userName, password, departmentID, departmentName);
     } catch(err) {
         console.error(err);
         ctx.throw(400, err.message);

@@ -59,7 +59,7 @@ export default class ChapterList extends React.Component {
                             {this.state.open[0] ? <ExpandLess /> : <ExpandMore />}
                         </ListItem>
                         {this.state.head.isOnlyArticle ? 
-                            (<ArticleList chapterText={this.state.head.chapterText} sectionText='' parentID={this.state.head._id} open={this.state.open[0]} onArticleToggle={this.props.onArticleToggle} likeArticles={this.props.likeArticles} onLikeIconToggle={this.props.onLikeIconToggle}/>) :
+                            (<ArticleList chapterText={this.state.head.chapterText} sectionText='--' parentID={this.state.head._id} open={this.state.open[0]} onArticleToggle={this.props.onArticleToggle} likeArticles={this.props.likeArticles} onLikeIconToggle={this.props.onLikeIconToggle}/>) :
                             (<SectionList chapterText={this.state.head.chapterText} chapterID={this.state.head._id} open={this.state.open[0]} onArticleToggle={this.props.onArticleToggle} likeArticles={this.props.likeArticles} onLikeIconToggle={this.props.onLikeIconToggle} />)
                         }
                     </div>
@@ -67,7 +67,7 @@ export default class ChapterList extends React.Component {
 
                 {this.state.chapters.map((obj, i) => {
                     let child = obj.isOnlyArticle ?
-                        (<ArticleList chapterText={obj.chapterText} sectiontext='' parentID={obj._id} open={this.state.open[i+2]} onArticleToggle={this.props.onArticleToggle} likeArticles={this.props.likeArticles} onLikeIconToggle={this.props.onLikeIconToggle}/>) :
+                        (<ArticleList chapterText={obj.chapterText} sectiontext='--' parentID={obj._id} open={this.state.open[i+2]} onArticleToggle={this.props.onArticleToggle} likeArticles={this.props.likeArticles} onLikeIconToggle={this.props.onLikeIconToggle}/>) :
                         (<SectionList chapterText={obj.chapterText} chapterID={obj._id} open={this.state.open[i+2]} onArticleToggle={this.props.onArticleToggle} likeArticles={this.props.likeArticles} onLikeIconToggle={this.props.onLikeIconToggle} />);
                     return (
                         <div key={i}>
@@ -87,7 +87,7 @@ export default class ChapterList extends React.Component {
                             {this.state.open[1] ? <ExpandLess /> : <ExpandMore />}
                         </ListItem>
                         {this.state.head.isOnlyArticle ? 
-                            (<ArticleList chapterText={this.state.tail.chapterText} sectionText='' parentID={this.state.tail._id} open={this.state.open[1]} onArticleToggle={this.props.onArticleToggle} likeArticles={this.props.likeArticles} onLikeIconToggle={this.props.onLikeIconToggle}/>) :
+                            (<ArticleList chapterText={this.state.tail.chapterText} sectionText='--' parentID={this.state.tail._id} open={this.state.open[1]} onArticleToggle={this.props.onArticleToggle} likeArticles={this.props.likeArticles} onLikeIconToggle={this.props.onLikeIconToggle}/>) :
                             (<SectionList chapterText={this.state.tail.chapterText} chapterID={this.state.tail._id} open={this.state.open[1]} onArticleToggle={this.props.onArticleToggle} likeArticles={this.props.likeArticles} onLikeIconToggle={this.props.onLikeIconToggle} />)
                         }
                     </div>

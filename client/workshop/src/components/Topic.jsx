@@ -10,6 +10,8 @@ import Radio from '@material-ui/core/Radio';
 import Button from '@material-ui/core/Button';
 import Collapse from '@material-ui/core/Collapse';
 
+import { submit } from 'api/workshop.js';
+
 import { Player } from 'video-react';
 
 import "../../node_modules/video-react/dist/video-react.css";
@@ -125,7 +127,12 @@ export default class Topic extends React.Component {
             }
         }
         if (isFinished) {
-            this.setState({isSubmitted: true})
+            submit(this.props.userInfo, this.state.isHelpful, this.state.userOpinion, this.state.userAns).then(() => {
+                this.setState({isSubmitted: true});
+            }).catch(err => {
+                console.error(err);
+                alert('送出失敗');
+            })
         } else {
             alert('請完成全部的問題再送出喔!')
         }

@@ -6092,6 +6092,11 @@ class Main extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
             'div',
             null,
             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                __WEBPACK_IMPORTED_MODULE_6__material_ui_core_Typography___default.a,
+                { variant: 'display3', align: 'center', id: 'headline', gutterBottom: true },
+                '\u6E05\u83EF\u62DB\u751F\u5C08\u696D\u5316\u5E73\u53F0'
+            ),
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                 __WEBPACK_IMPORTED_MODULE_1__material_ui_core_Paper___default.a,
                 { id: 'container' },
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
@@ -14768,7 +14773,7 @@ exports = module.exports = __webpack_require__(85)(undefined);
 
 
 // module
-exports.push([module.i, "#container{max-width:400px;width:100%;height:auto;padding:4rem;margin:10% auto auto}.formControl{display:block}#confirmBtn{margin-top:2rem;margin-left:auto}#btnContainer{text-align:right}#footer{margin-top:2rem}#errorIconContainer{text-align:center}#errorMessage{margin-top:2rem}", ""]);
+exports.push([module.i, "#container{max-width:400px;width:100%;height:auto;padding:4rem;margin:3vh auto auto}#headline{margin-top:10vh}.formControl{display:block}#confirmBtn{margin-top:2rem;margin-left:auto}#btnContainer{text-align:right}#footer{margin-top:2rem}#errorIconContainer{text-align:center}#errorMessage{margin-top:2rem}", ""]);
 
 // exports
 

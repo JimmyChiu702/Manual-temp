@@ -9684,7 +9684,7 @@ class ArticleList extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Componen
             case 'B':
                 return 'rgb(101, 174, 242)';
             case 'C':
-                return 'rgb(108, 242, 105)';
+                return 'rgb(255, 122, 51)';
             default:
                 return 'gray';
         }
@@ -11240,14 +11240,14 @@ class Main extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
                                 '\u4F7F\u7528\u8005\u7BA1\u7406'
                             ) })
                     ),
-                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_8__material_ui_icons_Person___default.a, null),
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_8__material_ui_icons_Person___default.a, { className: 'margin-right-10px' }),
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                         'div',
                         { className: 'margin-right-30px' },
                         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                             __WEBPACK_IMPORTED_MODULE_2__material_ui_core_Typography___default.a,
                             { variant: 'subheading', color: 'secondary' },
-                            !!this.state.userInfo && this.state.userInfo.departmentName
+                            !!this.state.userInfo && `${this.state.userInfo.departmentName} - ${this.state.userInfo.userName}`
                         )
                     ),
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
@@ -35628,10 +35628,10 @@ class ChapterList extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Componen
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_5__material_ui_core_ListItemText___default.a, { className: 'padding-left-20px', inset: true, primary: `${this.state.head.chapterText}` }),
                     this.state.open[0] ? __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_7__material_ui_icons_ExpandLess___default.a, null) : __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_6__material_ui_icons_ExpandMore___default.a, null)
                 ),
-                this.state.head.isOnlyArticle ? __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_9_components_ArticleList_jsx__["a" /* default */], { chapterText: this.state.head.chapterText, sectionText: '', parentID: this.state.head._id, open: this.state.open[0], onArticleToggle: this.props.onArticleToggle, likeArticles: this.props.likeArticles, onLikeIconToggle: this.props.onLikeIconToggle }) : __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_8_components_SectionList_jsx__["a" /* default */], { chapterText: this.state.head.chapterText, chapterID: this.state.head._id, open: this.state.open[0], onArticleToggle: this.props.onArticleToggle, likeArticles: this.props.likeArticles, onLikeIconToggle: this.props.onLikeIconToggle })
+                this.state.head.isOnlyArticle ? __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_9_components_ArticleList_jsx__["a" /* default */], { chapterText: this.state.head.chapterText, sectionText: '--', parentID: this.state.head._id, open: this.state.open[0], onArticleToggle: this.props.onArticleToggle, likeArticles: this.props.likeArticles, onLikeIconToggle: this.props.onLikeIconToggle }) : __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_8_components_SectionList_jsx__["a" /* default */], { chapterText: this.state.head.chapterText, chapterID: this.state.head._id, open: this.state.open[0], onArticleToggle: this.props.onArticleToggle, likeArticles: this.props.likeArticles, onLikeIconToggle: this.props.onLikeIconToggle })
             ),
             this.state.chapters.map((obj, i) => {
-                let child = obj.isOnlyArticle ? __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_9_components_ArticleList_jsx__["a" /* default */], { chapterText: obj.chapterText, sectiontext: '', parentID: obj._id, open: this.state.open[i + 2], onArticleToggle: this.props.onArticleToggle, likeArticles: this.props.likeArticles, onLikeIconToggle: this.props.onLikeIconToggle }) : __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_8_components_SectionList_jsx__["a" /* default */], { chapterText: obj.chapterText, chapterID: obj._id, open: this.state.open[i + 2], onArticleToggle: this.props.onArticleToggle, likeArticles: this.props.likeArticles, onLikeIconToggle: this.props.onLikeIconToggle });
+                let child = obj.isOnlyArticle ? __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_9_components_ArticleList_jsx__["a" /* default */], { chapterText: obj.chapterText, sectiontext: '--', parentID: obj._id, open: this.state.open[i + 2], onArticleToggle: this.props.onArticleToggle, likeArticles: this.props.likeArticles, onLikeIconToggle: this.props.onLikeIconToggle }) : __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_8_components_SectionList_jsx__["a" /* default */], { chapterText: obj.chapterText, chapterID: obj._id, open: this.state.open[i + 2], onArticleToggle: this.props.onArticleToggle, likeArticles: this.props.likeArticles, onLikeIconToggle: this.props.onLikeIconToggle });
                 return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                     'div',
                     { key: i },
@@ -35657,7 +35657,7 @@ class ChapterList extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Componen
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_5__material_ui_core_ListItemText___default.a, { className: 'padding-left-20px', inset: true, primary: `${this.state.tail.chapterText}` }),
                     this.state.open[1] ? __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_7__material_ui_icons_ExpandLess___default.a, null) : __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_6__material_ui_icons_ExpandMore___default.a, null)
                 ),
-                this.state.head.isOnlyArticle ? __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_9_components_ArticleList_jsx__["a" /* default */], { chapterText: this.state.tail.chapterText, sectionText: '', parentID: this.state.tail._id, open: this.state.open[1], onArticleToggle: this.props.onArticleToggle, likeArticles: this.props.likeArticles, onLikeIconToggle: this.props.onLikeIconToggle }) : __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_8_components_SectionList_jsx__["a" /* default */], { chapterText: this.state.tail.chapterText, chapterID: this.state.tail._id, open: this.state.open[1], onArticleToggle: this.props.onArticleToggle, likeArticles: this.props.likeArticles, onLikeIconToggle: this.props.onLikeIconToggle })
+                this.state.head.isOnlyArticle ? __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_9_components_ArticleList_jsx__["a" /* default */], { chapterText: this.state.tail.chapterText, sectionText: '--', parentID: this.state.tail._id, open: this.state.open[1], onArticleToggle: this.props.onArticleToggle, likeArticles: this.props.likeArticles, onLikeIconToggle: this.props.onLikeIconToggle }) : __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_8_components_SectionList_jsx__["a" /* default */], { chapterText: this.state.tail.chapterText, chapterID: this.state.tail._id, open: this.state.open[1], onArticleToggle: this.props.onArticleToggle, likeArticles: this.props.likeArticles, onLikeIconToggle: this.props.onLikeIconToggle })
             )
         );
     }
@@ -36302,7 +36302,7 @@ class Content extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
             case 'B':
                 return 'rgb(101, 174, 242)';
             case 'C':
-                return 'rgb(108, 242, 105)';
+                return 'rgb(255, 122, 51)';
             default:
                 return 'gray';
         }
@@ -36445,7 +36445,7 @@ class ContentManagement extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Co
             case 'B':
                 return 'rgb(101, 174, 242)';
             case 'C':
-                return 'rgb(108, 242, 105)';
+                return 'rgb(255, 122, 51)';
             default:
                 return 'gray';
         }
@@ -40951,7 +40951,7 @@ exports = module.exports = __webpack_require__(16)(undefined);
 
 
 // module
-exports.push([module.i, ".padding-left-10px{padding-left:10px}.padding-left-20px{padding-left:20px!important}.padding-left-40px{padding-left:40px!important}.padding-left-60px{padding-left:60px!important}.margin-left-20px{margin-left:20px!important}.margin-left-40px{margin-left:40px!important}.margin-left-60px{margin-left:60px!important}.padding-top-20px{padding-top:20px}.margin-top-20px{margin-top:20px!important}.margin-top-10px{margin-top:10px!important}.margin-right-30px{margin-right:30px}.padding-30px{padding:30px}.padding-top-10px{padding-top:10px}.text-align-right{text-align:right}#headline{margin:6rem auto 4rem}#footer{margin:1rem auto 4rem}#logoImg{height:40px;width:auto}", ""]);
+exports.push([module.i, ".padding-left-10px{padding-left:10px}.padding-left-20px{padding-left:20px!important}.padding-left-40px{padding-left:40px!important}.padding-left-60px{padding-left:60px!important}.margin-left-20px{margin-left:20px!important}.margin-left-40px{margin-left:40px!important}.margin-left-60px{margin-left:60px!important}.padding-top-20px{padding-top:20px}.margin-top-20px{margin-top:20px!important}.margin-top-10px{margin-top:10px!important}.margin-right-30px{margin-right:30px}.margin-right-10px{margin-right:10px}.padding-30px{padding:30px}.padding-top-10px{padding-top:10px}.text-align-right{text-align:right}#headline{margin:6rem auto 4rem}#footer{margin:1rem auto 4rem}#logoImg{height:40px;width:auto}", ""]);
 
 // exports
 

@@ -4402,7 +4402,7 @@ class Main extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
                         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                             __WEBPACK_IMPORTED_MODULE_3__material_ui_core_Typography___default.a,
                             { variant: 'subheading', color: 'secondary' },
-                            !!this.state.userInfo && this.state.userInfo.departmentName
+                            !!this.state.userInfo && `${this.state.userInfo.departmentName} - ${this.state.userInfo.userName}`
                         )
                     ),
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
@@ -4438,6 +4438,7 @@ class Main extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
 
     getUserInfo() {
         __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6_api_user_js__["a" /* getUserInfo */])().then(userInfo => {
+            console.log(userInfo);
             this.setState({ userInfo: userInfo });
         }).catch(err => {
             console.error('Error getting user information', err);

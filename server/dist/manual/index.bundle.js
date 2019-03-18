@@ -4694,8 +4694,6 @@ exports.default = _default;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_axios__);
 
 
-const baseUrl = 'http://127.0.0.1';
-
 // CONTENT MANAGEMENT
 // create
 function createChapter(chapterText, isOnlyArticle, part) {
@@ -9648,8 +9646,8 @@ class ArticleList extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Componen
                         } },
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                         __WEBPACK_IMPORTED_MODULE_8__material_ui_core_Typography___default.a,
-                        { style: { color: this.getRefColor(obj.level), width: '1rem' } },
-                        obj.level
+                        { style: { color: this.getRefColor(obj.level), width: '1rem', fontWeight: 'bold' } },
+                        obj.level != 'none' && obj.level
                     ),
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_5__material_ui_core_ListItemText___default.a, { primary: `(${i < this.articleNum.length && this.articleNum[i]})、${obj.articleText}` }),
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
@@ -9686,7 +9684,7 @@ class ArticleList extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Componen
             case 'B':
                 return 'rgb(101, 174, 242)';
             case 'C':
-                return 'rgb(108, 242, 105)';
+                return 'rgb(255, 122, 51)';
             default:
                 return 'gray';
         }
@@ -9859,6 +9857,11 @@ class ArticleListManagement extends __WEBPACK_IMPORTED_MODULE_0_react___default.
                                             value: this.state.articleLevel,
                                             onChange: this.handleModalSelectChange
                                         },
+                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                            __WEBPACK_IMPORTED_MODULE_13__material_ui_core_MenuItem___default.a,
+                                            { value: 'none' },
+                                            '\u7121'
+                                        ),
                                         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                             __WEBPACK_IMPORTED_MODULE_13__material_ui_core_MenuItem___default.a,
                                             { value: 'A' },
@@ -10088,7 +10091,7 @@ class ArticleListManagement extends __WEBPACK_IMPORTED_MODULE_0_react___default.
     }
 
     handleCreateArticle() {
-        if (!!this.uploadFile.files[0] && !!this.state.modalInputText && !!this.props.chapterID && !!this.props.sectionID && !!this.props.articleLevel) {
+        if (!!this.uploadFile.files[0] && !!this.state.modalInputText && !!this.props.chapterID && !!this.state.articleLevel) {
             const data = new FormData();
             data.append('file', this.uploadFile.files[0]);
             data.append('articleText', this.state.modalInputText);
@@ -11193,7 +11196,11 @@ class Main extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                     __WEBPACK_IMPORTED_MODULE_3__material_ui_core_Toolbar___default.a,
                     null,
-                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('img', { src: '/manual/images/Logo.png', id: 'logoImg' }),
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        'a',
+                        { href: '/entry' },
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('img', { src: '/manual/images/Logo.png', id: 'logoImg' })
+                    ),
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                         __WEBPACK_IMPORTED_MODULE_4__material_ui_core_Tabs___default.a,
                         { value: this.state.tabValue, onChange: this.handleTabsChange, style: { flexGrow: 1 }, indicatorColor: 'primary' },
@@ -11202,10 +11209,30 @@ class Main extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
                                 { variant: 'subheading', color: 'secondary' },
                                 '\u7AF6\u8CFD\u624B\u518A'
                             ) }),
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_5__material_ui_core_Tab___default.a, { label: __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                __WEBPACK_IMPORTED_MODULE_2__material_ui_core_Typography___default.a,
+                                { variant: 'subheading', color: 'secondary' },
+                                '\u570B\u5916\u5B78\u5236'
+                            ) }),
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_5__material_ui_core_Tab___default.a, { label: __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                __WEBPACK_IMPORTED_MODULE_2__material_ui_core_Typography___default.a,
+                                { variant: 'subheading', color: 'secondary' },
+                                '\u570B\u5916\u7AF6\u8CFD'
+                            ) }),
                         isAdmin && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_5__material_ui_core_Tab___default.a, { label: __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                 __WEBPACK_IMPORTED_MODULE_2__material_ui_core_Typography___default.a,
                                 { variant: 'subheading', color: 'secondary' },
                                 '\u624B\u518A\u5167\u5BB9\u7BA1\u7406'
+                            ) }),
+                        isAdmin && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_5__material_ui_core_Tab___default.a, { label: __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                __WEBPACK_IMPORTED_MODULE_2__material_ui_core_Typography___default.a,
+                                { variant: 'subheading', color: 'secondary' },
+                                '\u570B\u5916\u5B78\u5236\u7BA1\u7406'
+                            ) }),
+                        isAdmin && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_5__material_ui_core_Tab___default.a, { label: __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                __WEBPACK_IMPORTED_MODULE_2__material_ui_core_Typography___default.a,
+                                { variant: 'subheading', color: 'secondary' },
+                                '\u570B\u5916\u7AF6\u8CFD\u7BA1\u7406'
                             ) }),
                         isAdmin && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_5__material_ui_core_Tab___default.a, { label: __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                 __WEBPACK_IMPORTED_MODULE_2__material_ui_core_Typography___default.a,
@@ -11238,8 +11265,12 @@ class Main extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
                 '\u8A9E\u8A00\u6AA2\u5B9A\u8CC7\u8A0A\u67E5\u8A62\u5E73\u53F0'
             ),
             this.state.tabValue == 0 && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_10_components_Content_jsx__["a" /* default */], { part: 1, onLoadingChange: this.handleLoadingChange }),
-            this.state.tabValue == 1 && isAdmin && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_12_components_ContentManagement_jsx__["a" /* default */], { part: 1, onLoadingChange: this.handleLoadingChange }),
-            this.state.tabValue == 2 && isAdmin && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_13_components_UserManagement_jsx__["a" /* default */], { onLoadingChange: this.handleLoadingChange }),
+            this.state.tabValue == 1 && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_10_components_Content_jsx__["a" /* default */], { part: 2, onLoadingChange: this.handleLoadingChange }),
+            this.state.tabValue == 2 && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_10_components_Content_jsx__["a" /* default */], { part: 3, onLoadingChange: this.handleLoadingChange }),
+            this.state.tabValue == 3 && isAdmin && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_12_components_ContentManagement_jsx__["a" /* default */], { part: 1, onLoadingChange: this.handleLoadingChange }),
+            this.state.tabValue == 4 && isAdmin && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_12_components_ContentManagement_jsx__["a" /* default */], { part: 2, onLoadingChange: this.handleLoadingChange }),
+            this.state.tabValue == 5 && isAdmin && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_12_components_ContentManagement_jsx__["a" /* default */], { part: 3, onLoadingChange: this.handleLoadingChange }),
+            this.state.tabValue == 6 && isAdmin && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_13_components_UserManagement_jsx__["a" /* default */], { onLoadingChange: this.handleLoadingChange }),
             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                 __WEBPACK_IMPORTED_MODULE_2__material_ui_core_Typography___default.a,
                 { id: 'footer', variant: 'body2', align: 'center' },
@@ -36158,7 +36189,7 @@ class Content extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                     __WEBPACK_IMPORTED_MODULE_3__material_ui_core_Paper___default.a,
                     { id: 'articleContentDisplay' },
-                    this.state.articleLevel != '' && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    this.state.articleLevel != 'none' && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                         __WEBPACK_IMPORTED_MODULE_10__material_ui_core_Grid___default.a,
                         { id: 'ref-container', container: true },
                         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
@@ -36271,7 +36302,7 @@ class Content extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
             case 'B':
                 return 'rgb(101, 174, 242)';
             case 'C':
-                return 'rgb(108, 242, 105)';
+                return 'rgb(255, 122, 51)';
             default:
                 return 'gray';
         }
@@ -36345,7 +36376,7 @@ class ContentManagement extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Co
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                     __WEBPACK_IMPORTED_MODULE_3__material_ui_core_Paper___default.a,
                     { id: 'articleContentDisplay' },
-                    this.state.articleLevel != '' && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    this.state.articleLevel != 'none' && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                         __WEBPACK_IMPORTED_MODULE_5__material_ui_core_Grid___default.a,
                         { id: 'ref-container', container: true },
                         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
@@ -36414,7 +36445,7 @@ class ContentManagement extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Co
             case 'B':
                 return 'rgb(101, 174, 242)';
             case 'C':
-                return 'rgb(108, 242, 105)';
+                return 'rgb(255, 122, 51)';
             default:
                 return 'gray';
         }

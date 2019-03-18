@@ -90,7 +90,7 @@ export default class ContentManagement extends React.Component {
             case 'B':
                 return 'rgb(101, 174, 242)';
             case 'C':
-                return 'rgb(108, 242, 105)';
+                return 'rgb(255, 122, 51)';
             default:
                 return 'gray';
         }

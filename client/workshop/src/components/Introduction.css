@@ -1,0 +1,14 @@
+.player-container {
+    margin: 1rem auto;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.5);
+}
+
+.intro-container {
+    width: 90vw;
+    max-width: 700px;
+    margin: 3rem auto;
+}
+
+.intro-btn {
+    margin-left: 3rem !important;
+}

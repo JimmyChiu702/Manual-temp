@@ -34,7 +34,7 @@ export default class Main extends React.Component {
                         <div style={{flex: 'auto'}}></div>
                         <PersonIcon className='margin-right-10px'/>
                         <div className='margin-right-30px'>
-                            <Typography variant='subheading' color='secondary'>{!!this.state.userInfo && this.state.userInfo.departmentName}</Typography>            
+                            <Typography variant='subheading' color='secondary'>{!!this.state.userInfo && `${this.state.userInfo.departmentName} - ${this.state.userInfo.userName}`}</Typography>            
                         </div>
                         <Button className='margin-right-30px' variant='outlined' color='secondary' href='/logout'>登出</Button>
                     </Toolbar>
@@ -50,6 +50,7 @@ export default class Main extends React.Component {
 
     getUserInfo() {
         getUserInfo().then(userInfo => {
+            console.log(userInfo)
             this.setState({userInfo: userInfo});
         }).catch(err => {
             console.error('Error getting user information', err);

@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 const loginRecordSchema = new Schema({
     userID: { type: String, required: true },
-    userName: { typfe: String, required: true },
+    userName: { type: String, required: true },
     departmentName: { type: String, required: true },
     loginTime: { type: Date, default: Date.now }
 });
@@ -40,19 +40,21 @@ const articleHitRecordSchema = new Schema({
 const ArticleHitRecord = mongoose.model('ArticleHitRecord', articleHitRecordSchema);
 
 async function recordArticleHitInfo(userInfo, articleInfo) {
-    try {
-        var newRecord = new ArticleHitRecord({
-            userID: userInfo.userID,
-            userName: userInfo.userName,
-            departmentID: userInfo.departmentID,
-            departmentName: userInfo.departmentName,
-            articleText: articleInfo.articleText,
-            sectionText: articleInfo.sectionText,
-            chapterText: articleInfo.chapterText
-        });
-        return await newRecord.save();
-    } catch(err) {
-        console.error(err);
+    if (userInfo.departmentID != 'ADMIN') {
+        try {
+            var newRecord = new ArticleHitRecord({
+                userID: userInfo.userID,
+                userName: userInfo.userName,
+                departmentID: userInfo.departmentID,
+                departmentName: userInfo.departmentName,
+                articleText: articleInfo.articleText,
+                sectionText: articleInfo.sectionText,
+                chapterText: articleInfo.chapterText
+            });
+            return await newRecord.save();
+        } catch(err) {
+            console.error(err);
+        }
     }
 }
 

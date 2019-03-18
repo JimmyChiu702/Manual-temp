@@ -61,9 +61,9 @@ export default class Main extends React.Component {
                             {isAdmin && <Tab label={<Typography variant='subheading' color='secondary'>國外競賽管理</Typography>} />}
                             {isAdmin && <Tab label={<Typography variant='subheading' color='secondary'>使用者管理</Typography>} />}
                         </Tabs>
-                        <PersonIcon />
+                        <PersonIcon className='margin-right-10px' />
                         <div className='margin-right-30px'>
-                            <Typography variant='subheading' color='secondary'>{!!this.state.userInfo && this.state.userInfo.departmentName}</Typography>            
+                            <Typography variant='subheading' color='secondary'>{!!this.state.userInfo && `${this.state.userInfo.departmentName} - ${this.state.userInfo.userName}`}</Typography>            
                         </div>
                         <Button variant='outlined' color='secondary' href='/logout'>登出</Button>
                     </Toolbar>

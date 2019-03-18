@@ -4,8 +4,8 @@ const bcrypt = require('bcrypt');
 
 const userSchema = new Schema({
     userID: { type: String, required: true, unique: true, lowercase: true },
-    password: { type: String, required: true},
     userName: { type: String, required: true},
+    password: { type: String, required: true},
     departmentID: { type: String, required: true },
     departmentName: { type: String, required: true },
     like_1: [String],
@@ -34,13 +34,13 @@ userSchema.methods.authenticate = function(password, callback) {
 
 const User = mongoose.model('User', userSchema);
 
-async function createUser(userID, password, userName, departmentName) {
+async function createUser(userID, userName, password, departmentID, departmentName) {
     try {
         var newUser = new User({
             userID: userID,
-            password: password,
             userName: userName,
-            departmentID,
+            password: password,
+            departmentID: departmentID,
             departmentName: departmentName,
             like_1: [],
             like_2: [],
@@ -62,17 +62,19 @@ async function removeUser(user_id) {
     }
 }
 
-async function modifyUser(user_id, userName, userID, departmentName, password) {
+async function modifyUser(user_id, userID, userName, password, departmentID, departmentName) {
     try {
         var update = {};
-        if (!!userName)
-            update.userName = userName;
         if (!!userID)
             update.userID = userID;
-        if (!!departmentName)
-            update.departmentName = departmentName;
+        if (!!userName)
+            update.userName = userName;
         if (!!password)
             update.password = password;
+        if (!!departmentID)
+            update.departmentID = departmentID;
+        if (!!departmentName)
+            update.departmentName = departmentName;
         await User.findByIdAndUpdate(user_id, update);
         return await getAllUsers();
     } catch(err) {
