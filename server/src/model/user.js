@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const bcrypt = require('bcrypt');
+const papa = require('papaparse');
+const fs = require('fs');
 
 const userSchema = new Schema({
     userID: { type: String, required: true, unique: true, lowercase: true },
@@ -82,6 +84,30 @@ async function modifyUser(user_id, userID, userName, password, departmentID, dep
     }
 }
 
+async function createUserCsv(csvPath, operation='add') {
+    try {
+        if (operation != 'reset' || operation != 'add') {
+            throw new Error('Undefined operation');
+        }
+        if (operation == 'reset') {
+            await User.remove({});
+        }
+        const file = fs.createReadStream(csvPath);
+        await new Promise((resolve, reject) => {
+            papa.parse(file, {
+                step: user => {
+                    await createUser(user[0], user[1], user[2], user[3], user[4]);
+                },
+                complete: resolve,
+                error: err => reject(err)
+            });
+        });
+        return await getAllUsers();
+    } catch(err) {
+        throw err;
+    }
+}
+
 async function getAllUsers() {
     try {
         return await User.find({}, null, {sort: {_id: 1}});
@@ -90,4 +116,4 @@ async function getAllUsers() {
     }
 }
 
-module.exports = {User, getAllUsers, createUser, removeUser, modifyUser};
+module.exports = {User, getAllUsers, createUser, removeUser, modifyUser, createUserCsv};

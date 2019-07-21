@@ -37,7 +37,7 @@ app.use(passport.session());
 app.use(koaMount('/login', koaStatic(path.resolve(__dirname, '../dist/login'))));
 app.use(loginRouter.routes());
 
-// manual page & data router
+// platform page & data router
 app.use(koaMount('/entry', koaStatic(path.resolve(__dirname, '../dist/entry'))));
 app.use(koaMount('/manual', koaStatic(path.resolve(__dirname, '../dist/manual'))));
 app.use(koaMount('/workshop', koaStatic(path.resolve(__dirname, '../dist/workshop'))));
@@ -47,7 +47,7 @@ app.use(videoRouter.routes());
 // admin page & admin operation
 app.use(adminRouter.routes());
 
-const port = 80;
+const port = 8080;
 app.listen(port, () => {
     console.log(`Server is up and is running on port ${port}`);
 });
