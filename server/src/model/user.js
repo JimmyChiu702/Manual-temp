@@ -86,23 +86,28 @@ async function modifyUser(user_id, userID, userName, password, departmentID, dep
 
 async function createUserCsv(csvPath, operation='add') {
     try {
-        if (operation != 'reset' || operation != 'add') {
+        if (operation != 'reset' && operation != 'add') {
             throw new Error('Undefined operation');
         }
         if (operation == 'reset') {
             await User.remove({});
         }
         const file = fs.createReadStream(csvPath);
-        await new Promise((resolve, reject) => {
+        return await new Promise((resolve, reject) => {
             papa.parse(file, {
-                step: user => {
-                    await createUser(user[0], user[1], user[2], user[3], user[4]);
+                complete: async (result, file) => {
+                    try {
+                        for (const user of result.data) {
+                            await createUser(user[0], user[1], user[2], user[3], user[4]);
+                        }
+                        resolve(await getAllUsers());
+                    } catch(err) {
+                        reject(err);
+                    }
                 },
-                complete: resolve,
                 error: err => reject(err)
             });
         });
-        return await getAllUsers();
     } catch(err) {
         throw err;
     }
@@ -110,7 +115,7 @@ async function createUserCsv(csvPath, operation='add') {
 
 async function getAllUsers() {
     try {
-        return await User.find({}, null, {sort: {_id: 1}});
+        return await User.find({}, null, {sort: {departmentName: 1, _id: 1}});
     } catch(err) {
         throw err;
     }

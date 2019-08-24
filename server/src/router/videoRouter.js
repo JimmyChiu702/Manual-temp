@@ -3,7 +3,7 @@ const router = new koaRouter();
 const path = require('path');
 const fs = require('fs');
 
-router.get('/video/:videoName', (ctx, next) => {
+router.get('/workshop/video/:videoName', (ctx, next) => {
     const videoPath = path.resolve(__dirname, `../lib/video/${ctx.params.videoName}`);
     const stat = fs.statSync(videoPath);
     const fileSize = stat.size;

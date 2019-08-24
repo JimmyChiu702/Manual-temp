@@ -125,9 +125,8 @@ const articleSchema = new Schema({
 });
 const Article = mongoose.model('Article', articleSchema);
 
-async function createArticle(articleText, chapterID, sectionID, uploadFilePath, uploadFileName, part, level){
+async function createArticle(articleText, chapterID, sectionID, uploadFileName, part, level){
     try {
-//        await uploadFile(uploadFilePath, documentDirPath);
         var parentID = sectionID == '' ? chapterID : sectionID;
         var articleNum = await Article.count({parentID: parentID});
         var newArticle = new Article({
@@ -151,7 +150,6 @@ async function createArticle(articleText, chapterID, sectionID, uploadFilePath, 
 async function removeArticle(articleID){
     try {
         let articleToRemove = await Article.findById(articleID);
-//        fs.unlinkSync(`${uploadPath}${articleToRemove.filename}`);
         await Article.findByIdAndDelete(articleID);
         return await getArticles(articleToRemove.parentID)
     } catch(err) {
@@ -163,7 +161,6 @@ async function modifyArticle(articleID, newArticleText, file, level){
     try {
         var doc = {};
         if (file != null) {
-//            await Article.uploadFile(file.path, documentDirPath);
             doc['filename'] = file.name;
             doc['lastModifiedDate'] = Date.now();
         }

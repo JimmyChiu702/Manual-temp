@@ -41,6 +41,7 @@ app.use(loginRouter.routes());
 app.use(koaMount('/entry', koaStatic(path.resolve(__dirname, '../dist/entry'))));
 app.use(koaMount('/manual', koaStatic(path.resolve(__dirname, '../dist/manual'))));
 app.use(koaMount('/workshop', koaStatic(path.resolve(__dirname, '../dist/workshop'))));
+app.use(koaMount('/userManagement', koaStatic(path.resolve(__dirname, '../dist/userManagement'))));
 app.use(dataRouter.routes());
 app.use(videoRouter.routes());
 
