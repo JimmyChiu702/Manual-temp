@@ -135,7 +135,6 @@ router.post('/create/article', async (ctx, next) => {
 
 router.post('/modify/article', async (ctx, next) => {
     const {articleID, articleText, level} = ctx.request.body.fields;
-    const file = ctx.request.body.files.file;
     if (!articleID || (!articleText && !level))
         ctx.throw(400, 'Article ID, article text, and level are required');
     try {
@@ -173,6 +172,29 @@ router.post('/remove/article', async (ctx, next) => {
         ctx.throw(400, err.message);
     }
 });
+
+// Manage Articles via CSV
+router.post('/ManageArticlesCSV', async (ctx, next) => {
+    try {
+        const file = ctx.request.body.files.file;
+        const filename = file.name;
+        const oldFilePath = file.path;
+        const newFilePath = path.resolve(__dirname, `../lib/management_csv/${filename}`);
+
+        await new Promise((resolve, reject) => {
+            fs.rename(oldFilePath, newFilePath, err => {
+                if (err)
+                    reject(err);
+                resolve();
+            });
+        });
+
+        
+    } catch(err) {
+        console.error(err);
+        ctx.throw(400, err.message);
+    }
+})
 
 // USER MANAGEMENT
 // Create User 
@@ -228,13 +250,13 @@ router.get('/getAllUsers', async (ctx, next) => {
     }
 });
 
-// Manage Users Via CSV
+// Manage Users via CSV
 router.post('/manageUsersCsv/:operation', async(ctx, next) => {
     try {
         const file = ctx.request.body.files.userList;
         const filename = file.name;
         const oldFilePath = file.path;
-        const newFilePath = path.resolve(__dirname, `../lib/user_list/${filename}`);
+        const newFilePath = path.resolve(__dirname, `../lib/management_csv/${filename}`);
         
         await new Promise((resolve, reject) => {
             fs.rename(oldFilePath, newFilePath, err => {
