@@ -115,7 +115,7 @@ router.post('/create/article', async (ctx, next) => {
         const file = ctx.request.body.files.file;
         const filename = file.name;
         const oldFilePath = file.path;
-        const newFilePath = path.resolve(__dirname, `../lib/documents/${filename}`);
+        const newFilePath = path.resolve(__dirname, `../lib/document/${filename}`);
 
         await new Promise((resolve, reject) => {
             fs.rename(oldFilePath, newFilePath, err => {

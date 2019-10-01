@@ -1,0 +1,24 @@
+#content-mgt-container {
+    max-width: 900px;
+    width: 95%;
+    margin: 0 auto;
+}
+
+#article-content-paper {
+    width: 90%;
+    max-width: 1000px;
+    margin: auto;
+    margin-top: 5vh;
+    padding: 20px;
+    border-radius: 1rem;
+}
+
+#ref-container {
+    padding: 0 1rem 1rem;
+}
+
+#csv-mgt-icon {
+    margin-top: 1.8rem;
+    margin-bottom: 3rem;
+    text-align: center;
+}

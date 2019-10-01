@@ -1,5 +1,6 @@
 import React from 'react';
 
+import Modal from '@material-ui/core/Modal';
 import Typography from '@material-ui/core/Typography';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -7,6 +8,7 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Button from '@material-ui/core/Button';
 import PersonIcon from '@material-ui/icons/Person';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 import { getUserInfo } from 'api/content.js';
 
@@ -20,7 +22,7 @@ export default class Main extends React.Component {
 
         this.state = {
             userInfo: null,
-            loading: false,
+            loadingNum: 0,
             tabValue: 0
         };
 
@@ -36,7 +38,11 @@ export default class Main extends React.Component {
     render() {
         return (
             <div>
-                <div id='mask' style={{visibility: this.state.loading ? 'visible' : 'hidden'}}></div>
+                <Modal open={this.state.loadingNum>0}>
+                    <div style={{position: 'absolute', top: '50%', left: '50%'}}>
+                        <CircularProgress color='primary' size={100} auto style={{position: 'relative', top: '-50%', left: '-50%'}} />
+                    </div>
+                </Modal>
                 <AppBar position='static' color='primary'>
                     <Toolbar>
                         <a href='/enrty'>
@@ -60,6 +66,8 @@ export default class Main extends React.Component {
                 {this.state.tabValue==0 && <ContentManagement part={1} onLoadingChange={this.handleLoadingChange} />}
                 {this.state.tabValue==1 && <ContentManagement part={2} onLoadingChange={this.handleLoadingChange} />}
                 {this.state.tabValue==2 && <ContentManagement part={3} onLoadingChange={this.handleLoadingChange} />}
+            
+                <Typography id='footer' variant='body2' align='center'>Copyright &#9400; 2019 國立清華大學教務處招生策略中心。版權所有</Typography>
             </div>
         )
     }
@@ -82,8 +90,14 @@ export default class Main extends React.Component {
     }
 
     handleLoadingChange(isLoading, callback=null) {
-        this.setState({loading: isLoading}, () => {
-            if (callback) callback();
-        });
+        if (isLoading) {
+            this.setState(prevState => ({loadingNum: prevState.loadingNum+1}), () => {
+                if (callback != null) callback();
+            });
+        } else {
+            this.setState(prevState => ({loadingNum: prevState.loadingNum-1}), () => {
+                if (callback != null) callback();
+            })
+        }
     }
 }
