@@ -43,6 +43,7 @@ export default class Main extends React.Component {
                     <Button className='btn' variant='outlined' color='primary' fullWidth size='large' href='/workshop'>書面審查數位工作坊</Button>
                     <Button className='btn' variant='outlined' color='primary' fullWidth size='large' href='/manual'>高中生競賽<br />語言檢定資訊查詢</Button>
                     <Button className='btn' variant='outlined' color='primary' fullWidth size='large' href='/userManagement'>使用者管理</Button>
+                    <Button className='btn' variant='outlined' color='primary' fullWidth size='large' href='/manualManagement'>手冊管理</Button>
                     <Button className='btn' variant='outlined' color='primary' fullWidth size='large' disabled>校務數據分析結果</Button>
                 </div>
             </div>

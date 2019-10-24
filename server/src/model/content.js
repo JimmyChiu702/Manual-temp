@@ -1,9 +1,9 @@
 const fs = require('fs');
+const papa = require('papaparse');
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const path= require('path');
-const documentDirPath = path.resolve(__dirname, '../lib/document');
 
 // Chapter operations
 const chapterSchema = new Schema({
@@ -197,13 +197,55 @@ async function getAllArticles(part = null) {
     }
 }
 
-function uploadFile(oldPath, newPath){
-    return new Promise((resolve, reject) => {
-        fs.rename(oldPath, newPath, err => {
-            if (err) reject(err);
-            resolve();
+async function manageContentCsv(csvPath, action='add') {
+    try {
+        if (action!='reset' && action!='add') 
+            throw new Error('Undefined operation');
+        if (operation=='reset') {
+            await Chapter.remove({});
+            await Section.remove({});
+            await Article.remove({});
+        }
+        const file =fs.createReadStream(csvPath);
+        return await new Promise((resolve, reject) => {
+            papa.parse(file, {
+                complete: async (result, file) => {
+                    try {
+                        for (const article of result.data) {
+                            await createArticleCsv(article[0], article[1], article[2], article[3], article[4], article[5]);
+                        }
+                    } catch(err) {
+                        reject(err);
+                    }
+                },
+                error: err => reject(err)
+            });
         });
-    });
+    } catch(err) {
+        throw err;
+    }
+}
+
+async function createArticleCsv(chapterText, sectionText, articleText, filename, level, part) {
+    try {
+        var chapter = await Chapter.findOne({chapterText: chapterText});
+        if (!chapter) {
+            await createChapter(chapterText, sectionText=='', part);
+            chapter = await Chapter.findOne({chapterText: chapterText});
+        }
+        if (sectionText!='') {
+            var section = await Section.findOne({sectionText: sectionText});
+            if (!section) {
+                await createSection(chapter._id, sectionText);
+                section = await Section.findOne({sectionText: sectionText});
+            }
+        } else {
+            var section = null;
+        }
+        await createArticle(articleText, chapter._id, sectionText==''?'':section._id, filename, part, level);
+    } catch(err) {
+        throw err;
+    }
 }
 
 // for debugging
@@ -245,6 +287,7 @@ module.exports = {
     modifyArticle,
     getArticles,
     getAllArticles,
+    manageContentCsv,
     Article,
     Chapter,
     Section

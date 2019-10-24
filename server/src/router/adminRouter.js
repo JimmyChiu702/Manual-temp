@@ -173,8 +173,8 @@ router.post('/remove/article', async (ctx, next) => {
     }
 });
 
-// Manage Articles via CSV
-router.post('/ManageArticlesCSV', async (ctx, next) => {
+// Manage content via CSV
+router.post('/manageContentCsv', async (ctx, next) => {
     try {
         const file = ctx.request.body.files.file;
         const filename = file.name;
@@ -189,7 +189,8 @@ router.post('/ManageArticlesCSV', async (ctx, next) => {
             });
         });
 
-        
+        await contentModel.manageContentCsv(newFilePath, ctx.params.action);
+        ctx.status = 200;
     } catch(err) {
         console.error(err);
         ctx.throw(400, err.message);
