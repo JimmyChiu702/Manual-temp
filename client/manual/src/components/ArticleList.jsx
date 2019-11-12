@@ -23,7 +23,8 @@ export default class ArticleList extends React.Component {
         likeArticles: PropTypes.array,
         onLikeIconToggle: PropTypes.func,
         chapterText: PropTypes.string,
-        sectionText: PropTypes.string
+        sectionText: PropTypes.string,
+        onLoadingChange: PropTypes.func
     }
 
     constructor(props) {
@@ -92,12 +93,16 @@ export default class ArticleList extends React.Component {
     }
 
     getArticles() {
-        getArticles(this.props.parentID).then(articles => {
-            this.setState({articles: articles}, () => {
-                this.updateLikeIconDisplay(this.props.likeArticles);
+        this.props.onLoadingChange(true, () => {
+            getArticles(this.props.parentID).then(articles => {
+                this.setState({articles: articles}, () => {
+                    this.updateLikeIconDisplay(this.props.likeArticles);
+                    this.props.onLoadingChange(false);
+                });
+            }).catch(err => {
+                console.error('Error getting articles', err);
+                this.props.onLoadingChange(false);
             });
-        }).catch(err => {
-            console.error('Error getting articles', err);
         });
     }
 

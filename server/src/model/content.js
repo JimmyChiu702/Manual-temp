@@ -135,7 +135,7 @@ async function createArticle(articleText, chapterID, sectionID, uploadFileName, 
             chapterID: chapterID,
             sectionID: sectionID,
             filename: uploadFileName,
-            level: level!='none'?level:none,
+            level: level,
             index: articleNum,
             part: part
         });
@@ -160,7 +160,7 @@ async function removeArticle(articleID){
 async function modifyArticle(articleID, newArticleText, file, level){
     try {
         var doc = {};
-        if (file != null) {
+        if (file) {
             doc['filename'] = file.name;
             doc['lastModifiedDate'] = Date.now();
         }
@@ -197,11 +197,11 @@ async function getAllArticles(part = null) {
     }
 }
 
-async function manageContentCsv(csvPath, action='add') {
+async function manageContentCsv(csvPath, action='append') {
     try {
-        if (action!='reset' && action!='add') 
+        if (action!='reset' && action!='append') 
             throw new Error('Undefined operation');
-        if (operation=='reset') {
+        if (action=='reset') {
             await Chapter.remove({});
             await Section.remove({});
             await Article.remove({});

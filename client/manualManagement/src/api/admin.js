@@ -90,7 +90,7 @@ export function createArticle(data) {
 }
 
 export function modifyArticle(data) {
-    let url = `/modif/article`;
+    let url = `/modify/article`;
     console.log(`[POST] ${url}`);
     return axios.post(url, data).then(res => {
         if (res.status !== 200)
@@ -111,7 +111,7 @@ export function removeArticle(articleID) {
     });
 }
 
-export function csvUpload(data) {
+export function csvUpload(data, action) {
     let url = `/manageContentCsv/${action}`;
     console.log(`[POST] ${url}`);
     return axios.post(url, data).then(res => {

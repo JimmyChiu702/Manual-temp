@@ -20,7 +20,8 @@ export default class SectionList extends React.Component {
         open: PropTypes.bool,
         onArticleToggle: PropTypes.func,
         likeArticles: PropTypes.array,
-        chapterText: PropTypes.string
+        chapterText: PropTypes.string,
+        onLoadingChange: PropTypes.func
     };
     
     constructor(props) {
@@ -64,7 +65,8 @@ export default class SectionList extends React.Component {
                                          likeArticles={this.props.likeArticles} 
                                          onLikeIconToggle={this.props.onLikeIconToggle}
                                          chapterText={this.props.chapterText} 
-                                         sectionText={obj.sectionText} />
+                                         sectionText={obj.sectionText}
+                                         onLoadingChange={this.props.onLoadingChange} />
                         </div>
                     ))}
                 </List>
@@ -73,11 +75,16 @@ export default class SectionList extends React.Component {
     }
 
     getSections() {
-        getSections(this.props.chapterID).then(sections => {
-            this.setState({sections: sections});
-        }).catch(err => {
-            console.error('Error getting sections', err);
-        });
+        this.props.onLoadingChange(true, () => {
+            getSections(this.props.chapterID).then(sections => {
+                this.setState({sections: sections}, () => {
+                    this.props.onLoadingChange(false);
+                });
+            }).catch(err => {
+                console.error('Error getting sections', err);
+                this.props.onLoadingChange(false);
+            });
+        })
     }
 
     handleCollapseToggle(i) {

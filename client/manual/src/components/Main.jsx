@@ -11,9 +11,6 @@ import PersonIcon from '@material-ui/icons/Person';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
 import Content from 'components/Content.jsx';
-import Retrieval from 'components/Retrieval.jsx';
-import ContentManagement from 'components/ContentManagement.jsx';
-import UserManagement from 'components/UserManagement.jsx';
 
 import { getUserInfo } from 'api/content.js';
 
@@ -26,7 +23,7 @@ export default class Main extends React.Component {
         this.state = {
             tabValue: 0,
             userInfo: null,
-            loading: false
+            loadingNum: false
         }
 
         this.handleTabsChange = this.handleTabsChange.bind(this);
@@ -42,10 +39,10 @@ export default class Main extends React.Component {
 
         return (
             <div>
-                <Modal
-                    open={this.state.loading}
-                >
-                    <CircularProgress style={{margin: 'auto', outline: 'none'}} color='primary' size={100} auto/>
+                <Modal open={this.state.loadingNum>0}>
+                    <div style={{position: 'absolute', top: '50%', left: '50%'}}>
+                        <CircularProgress color='primary' size={100} auto style={{position: 'relative', top: '-50%', left: '-50%'}} />
+                    </div>
                 </Modal>
                 <AppBar position='static' color='primary'>
                     <Toolbar>
@@ -56,10 +53,6 @@ export default class Main extends React.Component {
                             <Tab label={<Typography variant='subheading' color='secondary'>競賽手冊</Typography>} />
                             <Tab label={<Typography variant='subheading' color='secondary'>國外學制</Typography>} />
                             <Tab label={<Typography variant='subheading' color='secondary'>國外競賽</Typography>} />
-                            {isAdmin && <Tab label={<Typography variant='subheading' color='secondary'>手冊內容管理</Typography>} />}
-                            {isAdmin && <Tab label={<Typography variant='subheading' color='secondary'>國外學制管理</Typography>} />}
-                            {isAdmin && <Tab label={<Typography variant='subheading' color='secondary'>國外競賽管理</Typography>} />}
-                            {isAdmin && <Tab label={<Typography variant='subheading' color='secondary'>使用者管理</Typography>} />}
                         </Tabs>
                         <PersonIcon className='margin-right-10px' />
                         <div className='margin-right-30px'>
@@ -76,22 +69,23 @@ export default class Main extends React.Component {
                 {this.state.tabValue==0 && <Content part={1} onLoadingChange={this.handleLoadingChange} />}
                 {this.state.tabValue==1 && <Content part={2} onLoadingChange={this.handleLoadingChange} />}
                 {this.state.tabValue==2 && <Content part={3} onLoadingChange={this.handleLoadingChange} />}
-                {(this.state.tabValue==3 && isAdmin) && <ContentManagement part={1} onLoadingChange={this.handleLoadingChange} />}
-                {(this.state.tabValue==4 && isAdmin) && <ContentManagement part={2} onLoadingChange={this.handleLoadingChange} />}
-                {(this.state.tabValue==5 && isAdmin) && <ContentManagement part={3} onLoadingChange={this.handleLoadingChange} />}
-                {(this.state.tabValue==6 && isAdmin) && <UserManagement onLoadingChange={this.handleLoadingChange} />}
-
-                <Typography id='footer' variant='body2' align='center'>Copyright &#9400; 2017 國立清華大學教務處招生策略中心。版權所有</Typography>
+                
+                <Typography id='footer' variant='body2' align='center'>Copyright &#9400; 2019 國立清華大學教務處招生策略中心。版權所有</Typography>
             </div>
         );
     }
 
     getUserInfo() {
-        getUserInfo().then(userInfo => {
-            this.setState({userInfo: userInfo});
-        }).catch(err => {
-            console.error('Error getting user infomation', err);
-        });
+        this.handleLoadingChange(true, () => {
+            getUserInfo().then(userInfo => {
+                this.setState({userInfo: userInfo}, () => {
+                    this.handleLoadingChange(false);
+                });
+            }).catch(err => {
+                console.error('Error getting user infomation', err);
+                this.handleLoadingChange(false);
+            });
+        })
     }
 
     handleTabsChange(event, value) {
@@ -99,9 +93,14 @@ export default class Main extends React.Component {
     }
 
     handleLoadingChange(isLoading, callback=null) {
-        this.setState({loading: isLoading}, () => {
-            if (callback)
-                callback();
-        });
+        if (isLoading) {
+            this.setState(prevState => ({loadingNum: prevState.loadingNum+1}), () => {
+                if (callback != null) callback();
+            });
+        } else {
+            this.setState(prevState => ({loadingNum: prevState.loadingNum-1}), () => {
+                if (callback != null) callback();
+            })
+        }
     }
 }

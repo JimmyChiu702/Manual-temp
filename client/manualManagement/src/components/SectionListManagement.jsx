@@ -155,9 +155,9 @@ export default class SectionListManagement extends React.Component {
         this.setState({modalOpen: [true, false, false]});
     }
 
-    handleModifyToggle(sectionID) {
+    handleModifyToggle(sectionID, text='') {
         this.sectionToManage = sectionID;
-        this.setState({modalOpen: [false, true, false]});
+        this.setState({modalOpen: [false, true, false], modalInputText: text});
     }
 
     handleRemoveToggle(sectionID) {

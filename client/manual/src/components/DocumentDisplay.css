@@ -1,0 +1,37 @@
+#pdf-container {
+    overflow: auto;
+    width: min-content;
+    margin: auto;
+    height: 100%;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+}
+
+#document-fab-add {
+    position: absolute;
+    right: 2rem;
+    bottom: 8rem;
+}
+
+#document-fab-sub {
+    position: absolute;
+    right: 2rem;
+    bottom: 3rem;
+}
+
+#level-btn {
+    position: absolute;
+    right: 2rem;
+    bottom: 15rem;
+}
+
+#level-info {
+    padding: 2rem;
+    height: min-content;
+    margin: auto;
+    border-radius: 1rem;;
+}

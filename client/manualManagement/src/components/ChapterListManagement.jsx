@@ -35,7 +35,7 @@ export default class ChapterListManagement extends React.Component {
         this.state = {
             chapters: [],
             modalOpen: [false, false, false],
-            modalInputText: [],
+            modalInputText: '',
             createContentType: 0  // 0 -> null, 1 -> section, 2 -> article
         };
 
@@ -176,9 +176,9 @@ export default class ChapterListManagement extends React.Component {
         this.setState({modalOpen: [true, false, false]});
     }
 
-    handleModifyToggle(chapterID) {
+    handleModifyToggle(chapterID, text='') {
         this.chapterToManage = chapterID;
-        this.setState({modalOpen: [false, true, false]});
+        this.setState({modalOpen: [false, true, false], modalInputText: text});
     }
 
     handleRemoveToggle(chapterID) {

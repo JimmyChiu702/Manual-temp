@@ -151,10 +151,12 @@ export default class ContentManagement extends React.Component {
                 data.append('file', this.uploadFile.files[0]);
                 csvUpload(data, action).then(() => {
                     this.forceUpdate(() => {
+                        this.props.onLoadingChange(false);
                         this.handleCsvModalClose();
                     });
                 }).catch(err => {
                     console.error('Error managing content using csv file', err);
+                    this.props.onLoadingChange(false);
                     alert('更新失敗');
                 });
             });

@@ -41,7 +41,7 @@ export default class ArticleListManagement extends React.Component {
             articles: [],
             modalOpen: [false, false, false],
             modalInputText: '',
-            modalInputArticleLevel: null,
+            modalInputArticleLevel: 'none',
             uploadFileName: ''
         };
 
@@ -207,9 +207,9 @@ export default class ArticleListManagement extends React.Component {
         this.setState({modalOpen: [true, false, false]});
     }
 
-    handleModifyToggle(articleID) {
+    handleModifyToggle(articleID, text='') {
         this.articleToManage = articleID;
-        this.setState({modalOpen: [false, true, false]});
+        this.setState({modalOpen: [false, true, false], modalInputText: text});
     }
 
     handleRemoveToggle(articleID) {
@@ -219,7 +219,7 @@ export default class ArticleListManagement extends React.Component {
 
     handleModalClose() {
         this.articleToManage = null;
-        this.setState({modalOpen: [false, false, false], modalInputText: '', modalInputArticleLevel: null, uploadFileName: ''});
+        this.setState({modalOpen: [false, false, false], modalInputText: '', modalInputArticleLevel: 'none', uploadFileName: ''});
     }
 
     handleModalInputChange(event) {

@@ -63,7 +63,7 @@ export default class ChapterManagement extends React.Component {
                             <IconButton onClick={event => {event.stopPropagation(); this.props.onRemoveToggle(this.props.chapter._id);}}>
                                 <RemoveIcon />
                             </IconButton>
-                            <IconButton onClick={event => {event.stopPropagation(); this.props.onModifyToggle(this.props.chapter._id)}}>
+                            <IconButton onClick={event => {event.stopPropagation(); this.props.onModifyToggle(this.props.chapter._id, this.props.chapter.chapterText)}}>
                                 <ModifyIcon />
                             </IconButton>
                         </ListItemSecondaryAction>

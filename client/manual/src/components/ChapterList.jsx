@@ -19,7 +19,8 @@ export default class ChapterList extends React.Component {
     static propTypes = {
         onArticleToggle: PropTypes.func,
         likeArticles: PropTypes.array,
-        onLikeIconToggle: PropTypes.func
+        onLikeIconToggle: PropTypes.func,
+        onLoadingChange: PropTypes.func
     };
     
     constructor(props) {
@@ -27,9 +28,7 @@ export default class ChapterList extends React.Component {
 
         this.state = {
             open: [],
-            chapters: [],
-            head: null,
-            tail: null
+            chapters: []
         };
 
         this.chapterNum = 
@@ -43,6 +42,16 @@ export default class ChapterList extends React.Component {
              '參拾陸', '參拾柒', '參拾捌', '參拾玖', '肆拾',
              '肆拾壹', '肆拾貳', '肆拾參', '肆拾肆', '肆拾伍', 
              '肆拾陸', '肆拾柒', '肆拾捌', '肆拾玖', '伍拾'];
+            
+        this.headArticle = {
+            articleText: '高中生競賽/語言檢定一覽表',
+            filename: '高中生競賽／語言檢定一覽表20181101.pdf'
+        };
+
+        this.tailArticle = {
+            articleText: '高中生競賽手冊附錄',
+            filename: '高中生競賽手冊_附錄.pdf'
+        };
     }
 
     componentDidMount() {
@@ -52,23 +61,13 @@ export default class ChapterList extends React.Component {
     render() {
         return (
             <List subheader={<ListSubheader component='div'>目錄</ListSubheader>}>
-                {!!this.state.head && 
-                    <div key='head'>
-                        <ListItem button onClick={() => {this.handleToggleCollapse(0);}}>
-                            <ListItemText className='padding-left-20px' inset primary={`${this.state.head.chapterText}`} />
-                            {this.state.open[0] ? <ExpandLess /> : <ExpandMore />}
-                        </ListItem>
-                        {this.state.head.isOnlyArticle ? 
-                            (<ArticleList chapterText={this.state.head.chapterText} sectionText='--' parentID={this.state.head._id} open={this.state.open[0]} onArticleToggle={this.props.onArticleToggle} likeArticles={this.props.likeArticles} onLikeIconToggle={this.props.onLikeIconToggle}/>) :
-                            (<SectionList chapterText={this.state.head.chapterText} chapterID={this.state.head._id} open={this.state.open[0]} onArticleToggle={this.props.onArticleToggle} likeArticles={this.props.likeArticles} onLikeIconToggle={this.props.onLikeIconToggle} />)
-                        }
-                    </div>
-                }
-
+                <ListItem button onClick={() => {this.props.onArticleToggle(this.headArticle.filename, 'none')}}>
+                    <ListItemText className='padding-left-20px' primary={this.headArticle.articleText} />
+                </ListItem>
                 {this.state.chapters.map((obj, i) => {
                     let child = obj.isOnlyArticle ?
-                        (<ArticleList chapterText={obj.chapterText} sectiontext='--' parentID={obj._id} open={this.state.open[i+2]} onArticleToggle={this.props.onArticleToggle} likeArticles={this.props.likeArticles} onLikeIconToggle={this.props.onLikeIconToggle}/>) :
-                        (<SectionList chapterText={obj.chapterText} chapterID={obj._id} open={this.state.open[i+2]} onArticleToggle={this.props.onArticleToggle} likeArticles={this.props.likeArticles} onLikeIconToggle={this.props.onLikeIconToggle} />);
+                        (<ArticleList chapterText={obj.chapterText} sectiontext='--' parentID={obj._id} open={this.state.open[i+2]} onArticleToggle={this.props.onArticleToggle} likeArticles={this.props.likeArticles} onLikeIconToggle={this.props.onLikeIconToggle} onLoadingChange={this.props.onLoadingChange} />) :
+                        (<SectionList chapterText={obj.chapterText} chapterID={obj._id} open={this.state.open[i+2]} onArticleToggle={this.props.onArticleToggle} likeArticles={this.props.likeArticles} onLikeIconToggle={this.props.onLikeIconToggle} onLoadingChange={this.props.onLoadingChange} />);
                     return (
                         <div key={i}>
                             <ListItem button onClick={() => {this.handleToggleCollapse(i+2);}}>
@@ -79,31 +78,24 @@ export default class ChapterList extends React.Component {
                         </div>
                     )
                 })}
-
-                {!!this.state.tail && 
-                    <div key='head'>
-                        <ListItem button onClick={() => {this.handleToggleCollapse(1);}}>
-                            <ListItemText className='padding-left-20px' inset primary={`${this.state.tail.chapterText}`} />
-                            {this.state.open[1] ? <ExpandLess /> : <ExpandMore />}
-                        </ListItem>
-                        {this.state.head.isOnlyArticle ? 
-                            (<ArticleList chapterText={this.state.tail.chapterText} sectionText='--' parentID={this.state.tail._id} open={this.state.open[1]} onArticleToggle={this.props.onArticleToggle} likeArticles={this.props.likeArticles} onLikeIconToggle={this.props.onLikeIconToggle}/>) :
-                            (<SectionList chapterText={this.state.tail.chapterText} chapterID={this.state.tail._id} open={this.state.open[1]} onArticleToggle={this.props.onArticleToggle} likeArticles={this.props.likeArticles} onLikeIconToggle={this.props.onLikeIconToggle} />)
-                        }
-                    </div>
-                }
+                <ListItem button onClick={() => {this.props.onArticleToggle(this.tailArticle.filename, 'none')}}>
+                    <ListItemText className='padding-left-20px' primary={this.tailArticle.articleText} />
+                </ListItem>
             </List>
         );
     }
 
     getChapters() {
-        getChapters(this.props.part).then(chapters => {
-            let head = chapters.splice(chapters.findIndex(ch => ch.kind === 0), 1)[0];
-            let tail = chapters.splice(chapters.findIndex(ch => ch.kind === 2), 1)[0];
-            this.setState({head: head, tail: tail, chapters: chapters});
-        }).catch(err => {
-            console.error('Error getting chapters', err);
-        }) 
+        this.props.onLoadingChange(true, () => {
+            getChapters(this.props.part).then(chapters => {
+                this.setState({chapters: chapters}, () => {
+                    this.props.onLoadingChange(false);
+                });
+            }).catch(err => {
+                console.error('Error getting chapters', err);
+                this.props.onLoadingChange(false);
+            }) ;
+        });
     }
 
     handleToggleCollapse(i) {

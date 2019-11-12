@@ -18,7 +18,8 @@ export default class LikeList extends React.Component {
     static propTypes = {
         onArticleToggle: PropTypes.func,
         onLikeIconToggle: PropTypes.func,
-        likeArticles: PropTypes.array
+        likeArticles: PropTypes.array,
+        onLoadingChange: PropTypes.func
     }
 
     constructor(props) {
@@ -67,13 +68,18 @@ export default class LikeList extends React.Component {
     }
 
     getArticles() {
-        getAllArticles(this.props.part).then(articles => {
-            this.setState({articles: articles}, () => {
-                this.updateLikeArticleList(this.props.likeArticles);
+        this.props.onLoadingChange(true, () => {
+            getAllArticles(this.props.part).then(articles => {
+                this.setState({articles: articles}, () => {
+                    this.updateLikeArticleList(this.props.likeArticles);
+                    this.props.onLoadingChange(false);
+                });
+            }).catch(err => {
+                console.error('Error getting articles', err);
+                this.props.onLoadingCHange(false);
             });
-        }).catch(err => {
-            console.error('Error getting articles', err);
-        })
+        });
+  
     }
 
     updateLikeArticleList(likeArticles) {

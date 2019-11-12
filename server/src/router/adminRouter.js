@@ -137,26 +137,28 @@ router.post('/modify/article', async (ctx, next) => {
     const {articleID, articleText, level} = ctx.request.body.fields;
     if (!articleID || (!articleText && !level))
         ctx.throw(400, 'Article ID, article text, and level are required');
-    try {
-        const file = ctx.request.body.files.file;
-        const filename = file.name;
-        const oldFilePath = file.path;
-        const newFilePath = path.resolve(__dirname, `../lib/documents/${filename}`);
-
-        await new Promise((resolve, reject) => {
-            fs.rename(oldFilePath, newFilePath, err => {
-                if (err)
-                    reject(err);
-                resolve();     
+    const file = ctx.request.body.files.file;
+    if (file) {
+        try {
+            const file = ctx.request.body.files.file;
+            const filename = file.name;
+            const oldFilePath = file.path;
+            const newFilePath = path.resolve(__dirname, `../lib/documents/${filename}`);
+    
+            await new Promise((resolve, reject) => {
+                fs.rename(oldFilePath, newFilePath, err => {
+                    if (err)
+                        reject(err);
+                    resolve();     
+                });
             });
-        });
-
-        ctx.response.type = 'json';
-        ctx.response.body = await contentModel.modifyArticle(articleID, articleText, file, level);
-    } catch(err) {
-        console.error(err);
-        ctx.throw(400, err.message);
+        } catch(err) {
+            console.error(err);
+            ctx.throw(400, err.message);
+        }
     }
+    ctx.response.type = 'json';
+    ctx.response.body = await contentModel.modifyArticle(articleID, articleText, file, level);
 });
 
 router.post('/remove/article', async (ctx, next) => {
@@ -174,7 +176,7 @@ router.post('/remove/article', async (ctx, next) => {
 });
 
 // Manage content via CSV
-router.post('/manageContentCsv', async (ctx, next) => {
+router.post('/manageContentCsv/:action', async (ctx, next) => {
     try {
         const file = ctx.request.body.files.file;
         const filename = file.name;

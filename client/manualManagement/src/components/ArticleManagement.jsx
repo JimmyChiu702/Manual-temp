@@ -46,7 +46,7 @@ export default class ArticleManagement extends React.Component {
                         <IconButton onClick={event => {event.stopPropagation(); this.props.onRemoveToggle(this.props.article._id)}}>
                             <RemoveIcon />
                         </IconButton>
-                        <IconButton onClick={event => {event.stopPropagation(); this.props.onModifyToggle(this.props.article._id)}}>
+                        <IconButton onClick={event => {event.stopPropagation(); this.props.onModifyToggle(this.props.article._id, this.props.article.articleText)}}>
                             <ModifyIcon />
                         </IconButton>
                     </ListItemSecondaryAction>

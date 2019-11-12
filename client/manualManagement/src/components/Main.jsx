@@ -45,7 +45,7 @@ export default class Main extends React.Component {
                 </Modal>
                 <AppBar position='static' color='primary'>
                     <Toolbar>
-                        <a href='/enrty'>
+                        <a href='/entry'>
                             <img id='logo-img' src='/manual/images/Logo.png' />
                         </a>
                         <Tabs value={this.state.tabValue} onChange={this.handleTabChange} style={{flexGrow: 1}} indicatorColor='primary'>
